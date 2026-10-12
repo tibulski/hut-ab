@@ -5,31 +5,84 @@
   "ph_boden": 0.2,
   "wetter": {
     "regen": {
-      "fenster_tage": 26, "frisch_tage": 4, "frisch_gewicht": 0.5,
-      "rampe_mm": [25, 80],
-      "regentag_mm": 1, "regentage_voll": 8, "regentage_exponent": 0.3,
-      "beleg": "Brejon Lamartinière & Hoffman 2025 (Preprint, 26 Tage, 2–4 mm/Tag, linear); Karavani et al. 2018 (1 Monat Verzug, Regentage); Salerni et al. 2002 (30 Tage); ČHMÚ-Pilzprognose (30 Tage)"
+      "fenster_tage": 26,
+      "frisch_tage": 4,
+      "frisch_gewicht": 0.5,
+      "rampe_mm": [
+        -55,
+        -15
+      ],
+      "regentag_mm": 1,
+      "regentage_voll": 8,
+      "regentage_exponent": 0.3,
+      "beleg": "Brejon Lamartinière & Hoffman 2025 (Preprint, 26 Tage, 2–4 mm/Tag, linear); Karavani et al. 2018 (1 Monat Verzug, Regentage); Salerni et al. 2002 (30 Tage); ČHMÚ-Pilzprognose (30 Tage); Schwellen an Brandenburger Funden kalibriert",
+      "wasserbilanz": {
+        "aktiv": true,
+        "et0_referenz_mm_tag": 0,
+        "beleg": "Rampe auf der Klimatischen Wasserbilanz (Regen − ET0, 26 Tage, frischer Regen halb). Kalibriert an 2.500 GBIF-Funden 2019–2025 mit ERA5-Wetter (docs/KALIBRIERUNG.md): relative Funddichte ≈ 0,2 bei −50 mm, ≈ 0,7 ab −20 mm, darüber Plateau. Ágreda et al. 2015: Wasserbilanz-Modelle passen ebenso gut wie Regenmodelle. Die zuvor aus Brejon Lamartinière & Hoffman übertragene Rampe war für Brandenburg zu streng."
+      }
     },
     "bodenwasser": {
-      "nfk_rampe": [30, 60],
-      "duerre_ab_klasse": 3, "duerre_faktor": 0.5,
-      "ohne_nfk_nach_klasse": [0.8, 0.6, 0.4, 0.25, 0.15, 0.05],
-      "beleg": "Karavani et al. 2018 (Bodenfeuchte erklärt Vorkommen, AUC 0,93); Ágreda et al. 2015 (Wasserbilanz); Schwellen = UFZ-Trockenstressklassen (experte)"
+      "nfk_rampe": [
+        30,
+        60
+      ],
+      "duerre_ab_klasse": 3,
+      "duerre_faktor": 0.5,
+      "ohne_nfk_nach_klasse": [
+        0.8,
+        0.6,
+        0.4,
+        0.25,
+        0.15,
+        0.05
+      ],
+      "beleg": "Karavani et al. 2018 (Bodenfeuchte erklärt Vorkommen, AUC 0,93); Ágreda et al. 2015 (Wasserbilanz); Schwellen = UFZ-Trockenstressklassen (experte)",
+      "prognose": {
+        "aktiv": true,
+        "nfk_spanne_m3m3": 0.1,
+        "beleg": "Die UFZ-nFK (Vortag) wird mit der modellierten Änderung der Bodenfeuchte 0–10 cm (Open-Meteo/ICON) bis zum Prognosetag fortgeschrieben. Umrechnung: nutzbare Feldkapazität von Sandböden ≈ 0,10 m³/m³ (Bodenkundliche Kartieranleitung KA5, Größenordnung; Annahme)"
+      },
+      "dwd": {
+        "aktiv": true,
+        "rampe_nfk": [
+          12.5,
+          57.5
+        ],
+        "beleg": "DWD AMBAV, Kiefer 0–30 cm. Rampe an 1424 GBIF-Mykorrhiza-Funden 2019–2025 kalibriert (relative Funddichte 20 % bzw. 80 % des Maximums; Median an Fundtagen ≈ 46 % nFK, Hintergrund 31.9 %), siehe data/kalibrierung_dwd.json; UFZ dient als Rückfall"
+      }
     },
     "temperatur": {
-      "mittel_tage": 20, "sigma": 3.5,
+      "mittel_tage": 20,
+      "sigma": 3.5,
       "beleg": "Brejon Lamartinière & Hoffman 2025 (B. edulis: Optimum 13 °C im 20-Tage-Mittel); artspezifische Verschiebungen experte"
     },
     "hitze": {
-      "tage": 7, "tmax_grad": 28, "abzug_je_tag": 0.15, "minimum": 0.3,
+      "tage": 7,
+      "tmax_grad": 28,
+      "abzug_je_tag": 0.15,
+      "minimum": 0.3,
       "beleg": "Karavani et al. 2018 (hohe Tmax im Sep/Okt negativ); ČHMÚ 'warm, nicht heiß' (schwach)"
     },
     "frost": {
-      "tage": 10, "tmin_grad": -2, "faktor_eine_nacht": 0.5, "faktor_drei_naechte": 0.1,
+      "tage": 10,
+      "tmin_grad": -2,
+      "faktor_eine_nacht": 0.5,
+      "faktor_drei_naechte": 0.1,
       "beleg": "experte; Karavani et al. 2018 (niedrige Tmin begrenzen Spätsaison)"
     },
     "boden_min": 0.03,
-    "exponenten": {"regen": 0.35, "bodenwasser": 0.25, "temperatur": 0.30, "hitze": 0.10}
+    "exponenten": {
+      "regen": 0.35,
+      "bodenwasser": 0.25,
+      "temperatur": 0.3,
+      "hitze": 0.1
+    },
+    "bodentemperatur": {
+      "grad": 2,
+      "faktor": 0.5,
+      "beleg": "experte: kalter Oberboden (Tagesmittel 0–7 cm < 2 °C) bremst Fruchtkörperbildung; keine publizierte Schwelle"
+    }
   },
   "spots": {
     "anzahl": 10,
@@ -37,5 +90,39 @@
     "perzentil": 97,
     "min_zellen": 3,
     "min_abstand_km": 4
+  },
+  "standort": {
+    "feuchte_puffer": {
+      "N": 0.6,
+      "+": 0.7,
+      "O": 0.7
+    },
+    "frisch_bonus": 0.15,
+    "trocken_faktor": 0.85,
+    "beleg": "Forstliche Standortskarte Brandenburg (LFB): Nährkraft A–R ersetzt den modellierten pH; grundwassernahe (N), sehr nasse (+) und organische (O) Standorte puffern Trockenheit (Mindestwert Bodenwasser), Feuchtestufe 1 (frisch) +0,15, 3 (trocken) ×0,85 – Expertenschätzung"
+  },
+  "bestand": {
+    "hoehe_min_m": 4,
+    "hoehe_min_faktor": 0.5,
+    "deckung_opt": [
+      40,
+      85
+    ],
+    "deckung_gering": 20,
+    "deckung_gering_faktor": 0.6,
+    "deckung_dicht_faktor": 0.85,
+    "verlust_neu_abzug": 0.8,
+    "verlust_alt_abzug": 0.4,
+    "hallimasch_verlust_bonus": 0.5,
+    "rand_gewicht": 0.25,
+    "beleg": "Kronenhöhe/-deckung DLR 2023, Kronenverlust DLR FCCL seit 2017. Ertragsoptimum bei mittlerer Bestandesdichte (Sánchez-González et al. 2019: Grundfläche 30–40 m²/ha – Übertragung auf Deckungsgrad = Annahme); Kulturen/Dickungen < 4 m und frische Kahlflächen tragen kaum Mykorrhiza-Fruchtkörper (experte); geschwächte Bestände fördern Hallimasch (experte)"
+  },
+  "stickstoff": {
+    "rampe_kg": [
+      10,
+      25
+    ],
+    "max_abzug": 0.5,
+    "beleg": "UBA-Deposition 2017–2019. Van Strien et al. 2018: Mykorrhizapilze erholen sich mit sinkendem N-Eintrag; Arnolds 1991. Rampe/Abzug = Expertenschätzung, skaliert mit arten.stickstoff_empfindlich"
   }
 }

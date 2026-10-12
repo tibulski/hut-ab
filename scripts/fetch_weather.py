@@ -16,7 +16,8 @@ import grid
 DLON, DLAT = 0.10, 0.06
 BATCH = 50
 API = 'https://api.open-meteo.com/v1/forecast'
-DAILY = 'precipitation_sum,temperature_2m_min,temperature_2m_max,temperature_2m_mean'
+DAILY = ('precipitation_sum,temperature_2m_min,temperature_2m_max,temperature_2m_mean,'
+         'et0_fao_evapotranspiration,soil_moisture_0_to_10cm_mean,soil_temperature_0_to_7cm_mean')
 
 
 def grid_points():
@@ -59,7 +60,7 @@ def main():
             dates = dates or dd['time']
             out.append({'lon': round(lo, 3), 'lat': round(la, 3),
                         **{v: dd[v] for v in DAILY.split(',')}})
-        time.sleep(2)
+        time.sleep(6)          # Open-Meteo-Kontingent schonen (Gewicht ~ Orte x Variablen x Tage)
     path = os.path.join(grid.ROOT, 'data', 'daily', 'weather.json')
     os.makedirs(os.path.dirname(path), exist_ok=True)
     with open(path, 'w', encoding='utf-8') as f:

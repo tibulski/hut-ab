@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Hut ab! – Steinpilz lüftet seinen Hut">
+  <defs>
+    <radialGradient id="bg" cx="50%" cy="38%" r="75%">
+      <stop offset="0" stop-color="#2f5d3f"/>
+      <stop offset="1" stop-color="#132a1d"/>
+    </radialGradient>
+    <linearGradient id="cap" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#b0652c"/>
+      <stop offset="0.55" stop-color="#7f3f17"/>
+      <stop offset="1" stop-color="#5b2a0e"/>
+    </linearGradient>
+    <linearGradient id="stem" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#e9d6ae"/>
+      <stop offset="0.45" stop-color="#fbf1da"/>
+      <stop offset="1" stop-color="#d9c08f"/>
+    </linearGradient>
+    <linearGradient id="pores" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#f3dc8a"/>
+      <stop offset="1" stop-color="#d6b65a"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="512" height="512" rx="112" fill="url(#bg)"/>
+
+  <!-- Moos -->
+  <ellipse cx="256" cy="452" rx="196" ry="38" fill="#3f7a46"/>
+  <ellipse cx="256" cy="446" rx="150" ry="22" fill="#5a9a52"/>
+  <path d="M120 440 q10 -22 22 0 M372 438 q12 -24 24 0 M168 452 q8 -16 16 0 M330 456 q8 -16 16 0"
+        stroke="#7fbf6a" stroke-width="7" fill="none" stroke-linecap="round"/>
+
+  <!-- Stiel mit Netz -->
+  <path d="M200 448 C164 410 176 330 214 276 L298 276 C336 330 348 410 312 448 Z" fill="url(#stem)"/>
+  <path d="M222 300 l14 14 l14 -14 l14 14 l14 -14 l14 14 M216 330 l14 14 l14 -14 l14 14 l14 -14 l14 14 l10 -10 M212 362 l14 14 l14 -14 l14 14 l14 -14 l14 14 l14 -14"
+        stroke="#cdb27c" stroke-width="3" fill="none" opacity="0.6" stroke-linejoin="round"/>
+  <!-- Augen und Laecheln -->
+  <ellipse cx="236" cy="352" rx="9" ry="12" fill="#3b2412"/>
+  <ellipse cx="276" cy="352" rx="9" ry="12" fill="#3b2412"/>
+  <circle cx="239" cy="347" r="3" fill="#fff"/>
+  <circle cx="279" cy="347" r="3" fill="#fff"/>
+  <path d="M240 378 q16 14 32 0" stroke="#3b2412" stroke-width="6" fill="none" stroke-linecap="round"/>
+  <ellipse cx="220" cy="374" rx="10" ry="6" fill="#e9a07a" opacity="0.6"/>
+  <ellipse cx="292" cy="374" rx="10" ry="6" fill="#e9a07a" opacity="0.6"/>
+
+  <!-- gelüfteter Hut -->
+  <g transform="rotate(-14 256 230) translate(10 -46)">
+    <path d="M108 252 C104 150 176 92 256 92 C336 92 408 150 404 252 C340 268 172 268 108 252 Z" fill="url(#cap)"/>
+    <ellipse cx="256" cy="254" rx="148" ry="16" fill="url(#pores)"/>
+    <path d="M160 150 C186 118 222 106 252 106" stroke="#d99a5e" stroke-width="14" fill="none" stroke-linecap="round" opacity="0.55"/>
+  </g>
+
+  <!-- Bewegungsbögen -->
+  <path d="M404 120 q26 22 22 58" stroke="#f6e7c1" stroke-width="10" fill="none" stroke-linecap="round" opacity="0.9"/>
+  <path d="M432 92 q36 32 30 84" stroke="#f6e7c1" stroke-width="8" fill="none" stroke-linecap="round" opacity="0.55"/>
+  <!-- Funkeln -->
+  <path d="M92 116 l8 20 l20 8 l-20 8 l-8 20 l-8 -20 l-20 -8 l20 -8 Z" fill="#f6e7c1" opacity="0.85"/>
+</svg>

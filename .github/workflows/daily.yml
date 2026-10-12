@@ -2,8 +2,8 @@ name: Tägliche Pilzprognose
 
 on:
   schedule:
-    # UFZ aktualisiert die Karten gegen 10:10 UTC; Prognose fuer morgen danach rechnen
-    - cron: '40 11 * * *'
+    # UFZ aktualisiert gegen 10:10 UTC, DWD-Bodenfeuchte gegen 12:40 UTC; Prognose fuer morgen danach rechnen
+    - cron: '0 13 * * *'
   workflow_dispatch:
   push:
     branches: [main]
@@ -34,8 +34,12 @@ jobs:
         run: python scripts/fetch_ufz.py
       - name: Wetter (Open-Meteo)
         run: python scripts/fetch_weather.py
+      - name: Bodenfeuchte (DWD, Kiefer 0–30 cm)
+        run: python scripts/fetch_dwd.py || echo "DWD nicht erreichbar - UFZ als Rückfall"
       - name: Prognose für morgen berechnen
         run: python scripts/build_daily.py
+      - name: Aktuelle Fundmeldungen (iNaturalist)
+        run: python scripts/fetch_recent.py || echo "iNaturalist nicht erreichbar - ohne Fundmeldungen weiter"
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:

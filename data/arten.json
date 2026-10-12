@@ -1,5 +1,5 @@
 {
-  "_hinweis": "Ökologische Steckbriefe für die Score-Berechnung. Werte sind Expertenschätzungen (Pilzführer/Literatur) und sollen später mit Fundmeldungen (GBIF/DGfM-Kartierung) kalibriert werden. baeume: Gewicht 0-1 je Thünen-Baumartengruppe (Mykorrhiza- bzw. Wirtsbaum). ph.opt: Optimum im SoilGrids-pH (H2O); dieser liegt in Brandenburger Wäldern bei ca. 4,5-5,8 und überschätzt reale Oberboden-pH-Werte eher. ph.gewicht 0 = pH egal. monate: Saisongewicht Jan-Dez. temp.opt: Optimum des 20-Tage-Temperaturmittels in °C (Steinpilz 13 °C belegt, übrige Arten ±2 °C Expertenschätzung). Edelreizker: Kalkvorliebe nur Pilzführer-Wissen, Taye et al. 2016 fanden in Spanien höhere Lactarius-Erträge auf sauren Böden – daher pH-Gewicht 0,5. habitat: mykorrhiza | parasit | waldrand.",
+  "_hinweis": "Ökologische Steckbriefe für die Score-Berechnung. Werte sind Expertenschätzungen (Pilzführer/Literatur) und sollen später mit Fundmeldungen (GBIF/DGfM-Kartierung) kalibriert werden. baeume: Gewicht 0-1 je Thünen-Baumartengruppe (Mykorrhiza- bzw. Wirtsbaum). ph.opt: Optimum im SoilGrids-pH (H2O); dieser liegt in Brandenburger Wäldern bei ca. 4,5-5,8 und überschätzt reale Oberboden-pH-Werte eher. ph.gewicht 0 = pH egal. monate: Saisongewicht Jan-Dez. temp.opt: Optimum des 20-Tage-Temperaturmittels in °C (Steinpilz 13 °C belegt, übrige Arten ±2 °C Expertenschätzung). Edelreizker: Kalkvorliebe nur Pilzführer-Wissen, Taye et al. 2016 fanden in Spanien höhere Lactarius-Erträge auf sauren Böden – daher pH-Gewicht 0,5. habitat: mykorrhiza | parasit | waldrand. naehrkraft: Eignung je Stamm-Nährkraftstufe der Forstlichen Standortskarte (Pilzführer-Wissen, ersetzt dort den pH). bestand.hoehe_opt: bevorzugte Kronenhöhe in m (Ortega-Martínez et al. 2011; Bericht Butterpilz junge, Krause Glucke alte Kiefern). stickstoff_empfindlich: 0-1 (van Strien et al. 2018, Arnolds 1991; Pfifferling am stärksten; Abstufung Expertenschätzung). waldrand: 0-1 Vorliebe für Wald-/Wegränder (Pilzführer).",
   "arten": [
     {
       "id": "steinpilz",
@@ -17,16 +17,43 @@
         "laerche": 0.2
       },
       "ph": {
-        "opt": [4.6, 5.8],
+        "opt": [
+          4.6,
+          5.8
+        ],
         "toleranz": 0.8,
         "gewicht": 1
       },
-      "monate": [0, 0, 0, 0, 0.1, 0.3, 0.6, 1, 1, 0.9, 0.3, 0],
+      "monate": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.03,
+        0.12,
+        0.31,
+        0.69,
+        1.0,
+        0.81,
+        0.27,
+        0.02
+      ],
       "temp": {
-        "opt": 13
+        "opt": 13.0,
+        "sigma": 3.25,
+        "quelle": "GBIF-Kalibrierung 2026-10-13 (n=368)"
       },
       "info": "Mykorrhiza mit Fichte, Buche, Eiche und Kiefer (Kiefern-Steinpilz). Liebt Wald- und Wegränder sowie lichte, ältere Bestände.",
-      "vorsicht": "Verwechslung mit dem bitteren Gallenröhrling (dunkles Netz am Stiel, rosa Poren)."
+      "vorsicht": "Verwechslung mit dem bitteren Gallenröhrling (dunkles Netz am Stiel, rosa Poren).",
+      "naehrkraft": {
+        "A": 0.6,
+        "Z": 1,
+        "M": 1,
+        "K": 0.9,
+        "R": 0.6
+      },
+      "stickstoff_empfindlich": 0.6,
+      "waldrand": 0.4
     },
     {
       "id": "marone",
@@ -44,16 +71,43 @@
         "birke": 0.3
       },
       "ph": {
-        "opt": [4.3, 5.3],
+        "opt": [
+          4.3,
+          5.3
+        ],
         "toleranz": 0.8,
         "gewicht": 1
       },
-      "monate": [0, 0, 0, 0, 0, 0.2, 0.4, 0.8, 1, 1, 0.6, 0.1],
+      "monate": [
+        0.0,
+        0.02,
+        0.0,
+        0.0,
+        0.01,
+        0.05,
+        0.15,
+        0.43,
+        0.92,
+        1.0,
+        0.79,
+        0.17
+      ],
       "temp": {
-        "opt": 12
+        "opt": 11.25,
+        "sigma": 2.5,
+        "quelle": "GBIF-Kalibrierung 2026-10-13 (n=463)"
       },
       "info": "In Brandenburg der häufigste Speisepilz der Kiefernforste. Saure, nährstoffarme Sandböden.",
-      "vorsicht": "Poren verfärben sich auf Druck blau – das ist normal. Gut garen."
+      "vorsicht": "Poren verfärben sich auf Druck blau – das ist normal. Gut garen.",
+      "naehrkraft": {
+        "A": 1,
+        "Z": 1,
+        "M": 0.7,
+        "K": 0.4,
+        "R": 0.2
+      },
+      "stickstoff_empfindlich": 0.6,
+      "waldrand": 0
     },
     {
       "id": "pfifferling",
@@ -69,16 +123,43 @@
         "birke": 0.6
       },
       "ph": {
-        "opt": [4.3, 5.4],
+        "opt": [
+          4.3,
+          5.4
+        ],
         "toleranz": 0.8,
         "gewicht": 1
       },
-      "monate": [0, 0, 0, 0, 0.1, 0.6, 1, 1, 0.9, 0.6, 0.2, 0],
+      "monate": [
+        0.03,
+        0.03,
+        0.0,
+        0.0,
+        0.05,
+        0.58,
+        0.98,
+        1.0,
+        0.81,
+        0.51,
+        0.19,
+        0.13
+      ],
       "temp": {
-        "opt": 15
+        "opt": 15.0,
+        "sigma": 5.0,
+        "quelle": "GBIF-Kalibrierung 2026-10-13 (n=141)"
       },
       "info": "Saure, nährstoffarme Böden, gern moosig. Stickstoffeintrag schadet. Mag warm-feuchte Sommer.",
-      "vorsicht": "Verwechslung mit dem Falschen Pfifferling und dem giftigen Ölbaumtrichterling (wächst büschelig an Holz)."
+      "vorsicht": "Verwechslung mit dem Falschen Pfifferling und dem giftigen Ölbaumtrichterling (wächst büschelig an Holz).",
+      "naehrkraft": {
+        "A": 1,
+        "Z": 1,
+        "M": 0.6,
+        "K": 0.3,
+        "R": 0.15
+      },
+      "stickstoff_empfindlich": 1.0,
+      "waldrand": 0
     },
     {
       "id": "birkenpilz",
@@ -89,16 +170,43 @@
         "birke": 1.0
       },
       "ph": {
-        "opt": [4.5, 6.5],
+        "opt": [
+          4.5,
+          6.5
+        ],
         "toleranz": 1.0,
         "gewicht": 0.5
       },
-      "monate": [0, 0, 0, 0, 0.1, 0.5, 0.8, 1, 1, 0.8, 0.2, 0],
+      "monate": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.08,
+        0.29,
+        0.59,
+        0.76,
+        1.0,
+        0.73,
+        0.28,
+        0.0
+      ],
       "temp": {
-        "opt": 13
+        "opt": 12.5,
+        "sigma": 4.0,
+        "quelle": "GBIF-Kalibrierung 2026-10-13 (n=107)"
       },
       "info": "Streng an Birken gebunden – auch einzelne Birken in Kiefernforsten und an Waldrändern.",
-      "vorsicht": "Gut durchgaren."
+      "vorsicht": "Gut durchgaren.",
+      "naehrkraft": {
+        "A": 0.9,
+        "Z": 1,
+        "M": 1,
+        "K": 0.8,
+        "R": 0.6
+      },
+      "stickstoff_empfindlich": 0.4,
+      "waldrand": 0.3
     },
     {
       "id": "rotkappe",
@@ -110,16 +218,41 @@
         "laub_kurz": 0.7
       },
       "ph": {
-        "opt": [4.3, 5.8],
+        "opt": [
+          4.3,
+          5.8
+        ],
         "toleranz": 0.8,
         "gewicht": 0.7
       },
-      "monate": [0, 0, 0, 0, 0, 0.3, 0.6, 1, 1, 0.7, 0.2, 0],
+      "monate": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.26,
+        0.51,
+        0.96,
+        1.0,
+        0.71,
+        0.17,
+        0.0
+      ],
       "temp": {
         "opt": 13
       },
       "info": "Heide-Rotkappe bei Birke auf sauren Böden, Espen-Rotkappe bei Zitterpappel (Aspe).",
-      "vorsicht": "Roh unverträglich – mindestens 15 Minuten garen. Das Fleisch verfärbt sich schwarzgrau."
+      "vorsicht": "Roh unverträglich – mindestens 15 Minuten garen. Das Fleisch verfärbt sich schwarzgrau.",
+      "naehrkraft": {
+        "A": 1,
+        "Z": 1,
+        "M": 0.8,
+        "K": 0.5,
+        "R": 0.3
+      },
+      "stickstoff_empfindlich": 0.4,
+      "waldrand": 0.2
     },
     {
       "id": "butterpilz",
@@ -130,16 +263,50 @@
         "kiefer": 1.0
       },
       "ph": {
-        "opt": [4.6, 6.8],
+        "opt": [
+          4.6,
+          6.8
+        ],
         "toleranz": 1.0,
         "gewicht": 0.5
       },
-      "monate": [0, 0, 0, 0, 0.1, 0.3, 0.5, 0.8, 1, 1, 0.6, 0.1],
+      "monate": [
+        0.0,
+        0.0,
+        0.0,
+        0.01,
+        0.03,
+        0.12,
+        0.22,
+        0.44,
+        0.88,
+        1.0,
+        0.7,
+        0.08
+      ],
       "temp": {
-        "opt": 11
+        "opt": 11.25,
+        "sigma": 2.75,
+        "quelle": "GBIF-Kalibrierung 2026-10-13 (n=282)"
       },
       "info": "Bei Kiefern, besonders in jungen Beständen, an Wegrändern und auf Sandböden.",
-      "vorsicht": "Schleimige Huthaut abziehen; kann bei empfindlichen Menschen Verdauungsbeschwerden auslösen."
+      "vorsicht": "Schleimige Huthaut abziehen; kann bei empfindlichen Menschen Verdauungsbeschwerden auslösen.",
+      "naehrkraft": {
+        "A": 0.9,
+        "Z": 1,
+        "M": 1,
+        "K": 0.8,
+        "R": 0.6
+      },
+      "bestand": {
+        "hoehe_opt": [
+          3,
+          15
+        ],
+        "toleranz": 8
+      },
+      "stickstoff_empfindlich": 0.3,
+      "waldrand": 0.3
     },
     {
       "id": "krause_glucke",
@@ -153,16 +320,50 @@
         "laerche": 0.3
       },
       "ph": {
-        "opt": [4.0, 6.0],
+        "opt": [
+          4.0,
+          6.0
+        ],
         "toleranz": 1.0,
         "gewicht": 0
       },
-      "monate": [0, 0, 0, 0, 0, 0.1, 0.3, 0.7, 1, 1, 0.5, 0.1],
+      "monate": [
+        0.05,
+        0.02,
+        0.0,
+        0.0,
+        0.0,
+        0.04,
+        0.12,
+        0.41,
+        1.0,
+        0.78,
+        0.32,
+        0.17
+      ],
       "temp": {
-        "opt": 13
+        "opt": 13.0,
+        "sigma": 3.75,
+        "quelle": "GBIF-Kalibrierung 2026-10-13 (n=235)"
       },
       "info": "Wächst am Stammfuß bzw. an den Wurzeln lebender Kiefern, oft jahrelang an derselben Stelle.",
-      "vorsicht": "Gründlich reinigen (Sand, Nadeln) und garen."
+      "vorsicht": "Gründlich reinigen (Sand, Nadeln) und garen.",
+      "naehrkraft": {
+        "A": 1,
+        "Z": 1,
+        "M": 1,
+        "K": 1,
+        "R": 1
+      },
+      "bestand": {
+        "hoehe_opt": [
+          18,
+          45
+        ],
+        "toleranz": 8
+      },
+      "stickstoff_empfindlich": 0,
+      "waldrand": 0
     },
     {
       "id": "parasol",
@@ -183,16 +384,43 @@
         "tanne": 0.6
       },
       "ph": {
-        "opt": [5.0, 7.0],
+        "opt": [
+          5.0,
+          7.0
+        ],
         "toleranz": 1.0,
         "gewicht": 0.7
       },
-      "monate": [0, 0, 0, 0, 0, 0.2, 0.5, 0.9, 1, 0.8, 0.2, 0],
+      "monate": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.01,
+        0.24,
+        0.41,
+        0.58,
+        1.0,
+        0.72,
+        0.26,
+        0.03
+      ],
       "temp": {
-        "opt": 15
+        "opt": 12.75,
+        "sigma": 4.25,
+        "quelle": "GBIF-Kalibrierung 2026-10-13 (n=597)"
       },
       "info": "Zersetzer ohne Baumpartner. Waldränder, Lichtungen, lichte Wälder und Wiesen am Wald.",
-      "vorsicht": "Nur große Exemplare (Hut über 10 cm) mit genattertem Stiel und verschiebbarem Ring – kleine Schirmlinge können tödlich giftig sein. Junge Exemplare nicht mit dem Pantherpilz verwechseln."
+      "vorsicht": "Nur große Exemplare (Hut über 10 cm) mit genattertem Stiel und verschiebbarem Ring – kleine Schirmlinge können tödlich giftig sein. Junge Exemplare nicht mit dem Pantherpilz verwechseln.",
+      "naehrkraft": {
+        "A": 0.4,
+        "Z": 0.7,
+        "M": 1,
+        "K": 1,
+        "R": 1
+      },
+      "stickstoff_empfindlich": 0,
+      "waldrand": 0
     },
     {
       "id": "hallimasch",
@@ -213,16 +441,43 @@
         "erle": 0.6
       },
       "ph": {
-        "opt": [4.0, 7.0],
+        "opt": [
+          4.0,
+          7.0
+        ],
         "toleranz": 1.0,
         "gewicht": 0
       },
-      "monate": [0, 0, 0, 0, 0, 0, 0.1, 0.2, 0.8, 1, 0.8, 0.2],
+      "monate": [
+        0.02,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.05,
+        0.09,
+        0.41,
+        1.0,
+        0.89,
+        0.18
+      ],
       "temp": {
-        "opt": 11
+        "opt": 10.75,
+        "sigma": 2.75,
+        "quelle": "GBIF-Kalibrierung 2026-10-13 (n=166)"
       },
       "info": "Parasit und Zersetzer an Stubben und geschwächten Bäumen, oft massenhaft nach den ersten kühlen Nächten.",
-      "vorsicht": "Roh giftig! Mindestens 15–20 Minuten garen, Kochwasser wegschütten. Verwechslung mit dem tödlich giftigen Gifthäubling."
+      "vorsicht": "Roh giftig! Mindestens 15–20 Minuten garen, Kochwasser wegschütten. Verwechslung mit dem tödlich giftigen Gifthäubling.",
+      "naehrkraft": {
+        "A": 0.6,
+        "Z": 0.8,
+        "M": 1,
+        "K": 1,
+        "R": 1
+      },
+      "stickstoff_empfindlich": 0,
+      "waldrand": 0
     },
     {
       "id": "edelreizker",
@@ -233,16 +488,43 @@
         "kiefer": 1.0
       },
       "ph": {
-        "opt": [5.8, 7.5],
+        "opt": [
+          5.8,
+          7.5
+        ],
         "toleranz": 0.8,
         "gewicht": 0.5
       },
-      "monate": [0, 0, 0, 0, 0, 0, 0.2, 0.5, 1, 1, 0.5, 0],
+      "monate": [
+        0.0,
+        0.0,
+        0.04,
+        0.0,
+        0.0,
+        0.0,
+        0.11,
+        0.34,
+        0.85,
+        1.0,
+        0.64,
+        0.02
+      ],
       "temp": {
-        "opt": 11
+        "opt": 10.75,
+        "sigma": 2.25,
+        "quelle": "GBIF-Kalibrierung 2026-10-13 (n=119)"
       },
       "info": "Bei Kiefern auf kalkhaltigen Böden (z. B. Geschiebemergel der Endmoränen, Kalk-Kiefernforste).",
-      "vorsicht": "Milch karottenorange. Verwechslung mit dem giftigen Birkenreizker (weiße Milch, zottiger Hutrand)."
+      "vorsicht": "Milch karottenorange. Verwechslung mit dem giftigen Birkenreizker (weiße Milch, zottiger Hutrand).",
+      "naehrkraft": {
+        "A": 0.2,
+        "Z": 0.4,
+        "M": 0.8,
+        "K": 1,
+        "R": 1
+      },
+      "stickstoff_empfindlich": 0.5,
+      "waldrand": 0
     }
   ]
 }
