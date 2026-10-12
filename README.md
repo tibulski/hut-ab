@@ -1,4 +1,4 @@
-# Pilz-App Berlin/Brandenburg – Startpaket
+# Hut ab! – Pilzkarte Berlin/Brandenburg
 
 Ergebnisse einer Claude-Cowork-Sitzung (11./12.10.2026): Auswertung des UFZ-Dürremonitors
 (Oberboden) und von Niederschlagsdaten für die Pilzsuche rund um Berlin.

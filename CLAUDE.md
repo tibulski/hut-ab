@@ -1,4 +1,4 @@
-# Pilz-App Berlin/Brandenburg – Projektkontext für Claude Code
+# Hut ab! (Pilz-App Berlin/Brandenburg) – Projektkontext für Claude Code
 
 ## Ziel
 Eine App, die anzeigt, wo rund um Berlin die Chancen auf Pilze am besten sind –
