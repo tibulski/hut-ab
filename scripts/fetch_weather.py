@@ -3,7 +3,8 @@
 
 Je Punkt werden die Tageswerte der letzten 31 Tage und die Prognose fuer 3 Tage
 gespeichert; die Auswertung (Fenster, Zieltag) macht build_daily.py.
-Punktabstand ~7 km (Open-Meteo-Modelle haben ohnehin 2-11 km Aufloesung).
+Punktabstand ~14 km: reicht fuer 20-26-Tage-Summen/-Mittel und haelt das freie Open-Meteo-Kontingent
+auch von geteilten IP-Adressen (GitHub Actions) aus ein (Gewicht ~ Orte x 3 bei 34 Tagen).
 
 Aufruf: python scripts/fetch_weather.py
 Ausgabe: data/daily/weather.json
@@ -13,8 +14,8 @@ import numpy as np
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import grid
 
-DLON, DLAT = 0.10, 0.06
-BATCH = 50
+DLON, DLAT = 0.20, 0.12
+BATCH = 40
 API = 'https://api.open-meteo.com/v1/forecast'
 DAILY = ('precipitation_sum,temperature_2m_min,temperature_2m_max,temperature_2m_mean,'
          'et0_fao_evapotranspiration,soil_moisture_0_to_10cm_mean,soil_temperature_0_to_7cm_mean')
@@ -60,7 +61,7 @@ def main():
             dates = dates or dd['time']
             out.append({'lon': round(lo, 3), 'lat': round(la, 3),
                         **{v: dd[v] for v in DAILY.split(',')}})
-        time.sleep(6)          # Open-Meteo-Kontingent schonen (Gewicht ~ Orte x Variablen x Tage)
+        time.sleep(20)         # ~40 Orte x 3 Gewichte je 20 s = ~360/min < 600/min
     path = os.path.join(grid.ROOT, 'data', 'daily', 'weather.json')
     os.makedirs(os.path.dirname(path), exist_ok=True)
     with open(path, 'w', encoding='utf-8') as f:
