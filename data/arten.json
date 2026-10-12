@@ -1,0 +1,248 @@
+{
+  "_hinweis": "Ökologische Steckbriefe für die Score-Berechnung. Werte sind Expertenschätzungen (Pilzführer/Literatur) und sollen später mit Fundmeldungen (GBIF/DGfM-Kartierung) kalibriert werden. baeume: Gewicht 0-1 je Thünen-Baumartengruppe (Mykorrhiza- bzw. Wirtsbaum). ph.opt: Optimum im SoilGrids-pH (H2O); dieser liegt in Brandenburger Wäldern bei ca. 4,5-5,8 und überschätzt reale Oberboden-pH-Werte eher. ph.gewicht 0 = pH egal. monate: Saisongewicht Jan-Dez. temp.opt: Optimum des 20-Tage-Temperaturmittels in °C (Steinpilz 13 °C belegt, übrige Arten ±2 °C Expertenschätzung). Edelreizker: Kalkvorliebe nur Pilzführer-Wissen, Taye et al. 2016 fanden in Spanien höhere Lactarius-Erträge auf sauren Böden – daher pH-Gewicht 0,5. habitat: mykorrhiza | parasit | waldrand.",
+  "arten": [
+    {
+      "id": "steinpilz",
+      "name": "Steinpilz",
+      "latein": "Boletus edulis agg.",
+      "habitat": "mykorrhiza",
+      "baeume": {
+        "fichte": 1.0,
+        "buche": 0.9,
+        "eiche": 0.9,
+        "kiefer": 0.8,
+        "tanne": 0.6,
+        "birke": 0.5,
+        "douglasie": 0.3,
+        "laerche": 0.2
+      },
+      "ph": {
+        "opt": [4.6, 5.8],
+        "toleranz": 0.8,
+        "gewicht": 1
+      },
+      "monate": [0, 0, 0, 0, 0.1, 0.3, 0.6, 1, 1, 0.9, 0.3, 0],
+      "temp": {
+        "opt": 13
+      },
+      "info": "Mykorrhiza mit Fichte, Buche, Eiche und Kiefer (Kiefern-Steinpilz). Liebt Wald- und Wegränder sowie lichte, ältere Bestände.",
+      "vorsicht": "Verwechslung mit dem bitteren Gallenröhrling (dunkles Netz am Stiel, rosa Poren)."
+    },
+    {
+      "id": "marone",
+      "name": "Maronenröhrling",
+      "latein": "Imleria badia",
+      "habitat": "mykorrhiza",
+      "baeume": {
+        "kiefer": 1.0,
+        "fichte": 1.0,
+        "tanne": 0.6,
+        "laerche": 0.5,
+        "douglasie": 0.5,
+        "buche": 0.5,
+        "eiche": 0.4,
+        "birke": 0.3
+      },
+      "ph": {
+        "opt": [4.3, 5.3],
+        "toleranz": 0.8,
+        "gewicht": 1
+      },
+      "monate": [0, 0, 0, 0, 0, 0.2, 0.4, 0.8, 1, 1, 0.6, 0.1],
+      "temp": {
+        "opt": 12
+      },
+      "info": "In Brandenburg der häufigste Speisepilz der Kiefernforste. Saure, nährstoffarme Sandböden.",
+      "vorsicht": "Poren verfärben sich auf Druck blau – das ist normal. Gut garen."
+    },
+    {
+      "id": "pfifferling",
+      "name": "Pfifferling",
+      "latein": "Cantharellus cibarius",
+      "habitat": "mykorrhiza",
+      "baeume": {
+        "kiefer": 0.9,
+        "fichte": 0.9,
+        "buche": 0.8,
+        "eiche": 0.8,
+        "tanne": 0.6,
+        "birke": 0.6
+      },
+      "ph": {
+        "opt": [4.3, 5.4],
+        "toleranz": 0.8,
+        "gewicht": 1
+      },
+      "monate": [0, 0, 0, 0, 0.1, 0.6, 1, 1, 0.9, 0.6, 0.2, 0],
+      "temp": {
+        "opt": 15
+      },
+      "info": "Saure, nährstoffarme Böden, gern moosig. Stickstoffeintrag schadet. Mag warm-feuchte Sommer.",
+      "vorsicht": "Verwechslung mit dem Falschen Pfifferling und dem giftigen Ölbaumtrichterling (wächst büschelig an Holz)."
+    },
+    {
+      "id": "birkenpilz",
+      "name": "Birkenpilz",
+      "latein": "Leccinum scabrum agg.",
+      "habitat": "mykorrhiza",
+      "baeume": {
+        "birke": 1.0
+      },
+      "ph": {
+        "opt": [4.5, 6.5],
+        "toleranz": 1.0,
+        "gewicht": 0.5
+      },
+      "monate": [0, 0, 0, 0, 0.1, 0.5, 0.8, 1, 1, 0.8, 0.2, 0],
+      "temp": {
+        "opt": 13
+      },
+      "info": "Streng an Birken gebunden – auch einzelne Birken in Kiefernforsten und an Waldrändern.",
+      "vorsicht": "Gut durchgaren."
+    },
+    {
+      "id": "rotkappe",
+      "name": "Rotkappe",
+      "latein": "Leccinum versipelle / L. aurantiacum agg.",
+      "habitat": "mykorrhiza",
+      "baeume": {
+        "birke": 1.0,
+        "laub_kurz": 0.7
+      },
+      "ph": {
+        "opt": [4.3, 5.8],
+        "toleranz": 0.8,
+        "gewicht": 0.7
+      },
+      "monate": [0, 0, 0, 0, 0, 0.3, 0.6, 1, 1, 0.7, 0.2, 0],
+      "temp": {
+        "opt": 13
+      },
+      "info": "Heide-Rotkappe bei Birke auf sauren Böden, Espen-Rotkappe bei Zitterpappel (Aspe).",
+      "vorsicht": "Roh unverträglich – mindestens 15 Minuten garen. Das Fleisch verfärbt sich schwarzgrau."
+    },
+    {
+      "id": "butterpilz",
+      "name": "Butterpilz",
+      "latein": "Suillus luteus",
+      "habitat": "mykorrhiza",
+      "baeume": {
+        "kiefer": 1.0
+      },
+      "ph": {
+        "opt": [4.6, 6.8],
+        "toleranz": 1.0,
+        "gewicht": 0.5
+      },
+      "monate": [0, 0, 0, 0, 0.1, 0.3, 0.5, 0.8, 1, 1, 0.6, 0.1],
+      "temp": {
+        "opt": 11
+      },
+      "info": "Bei Kiefern, besonders in jungen Beständen, an Wegrändern und auf Sandböden.",
+      "vorsicht": "Schleimige Huthaut abziehen; kann bei empfindlichen Menschen Verdauungsbeschwerden auslösen."
+    },
+    {
+      "id": "krause_glucke",
+      "name": "Krause Glucke",
+      "latein": "Sparassis crispa",
+      "habitat": "parasit",
+      "baeume": {
+        "kiefer": 1.0,
+        "douglasie": 0.3,
+        "fichte": 0.3,
+        "laerche": 0.3
+      },
+      "ph": {
+        "opt": [4.0, 6.0],
+        "toleranz": 1.0,
+        "gewicht": 0
+      },
+      "monate": [0, 0, 0, 0, 0, 0.1, 0.3, 0.7, 1, 1, 0.5, 0.1],
+      "temp": {
+        "opt": 13
+      },
+      "info": "Wächst am Stammfuß bzw. an den Wurzeln lebender Kiefern, oft jahrelang an derselben Stelle.",
+      "vorsicht": "Gründlich reinigen (Sand, Nadeln) und garen."
+    },
+    {
+      "id": "parasol",
+      "name": "Parasol",
+      "latein": "Macrolepiota procera",
+      "habitat": "waldrand",
+      "baeume": {
+        "kiefer": 0.7,
+        "eiche": 0.8,
+        "buche": 0.7,
+        "birke": 0.7,
+        "fichte": 0.6,
+        "laerche": 0.6,
+        "douglasie": 0.6,
+        "laub_lang": 0.8,
+        "laub_kurz": 0.7,
+        "erle": 0.4,
+        "tanne": 0.6
+      },
+      "ph": {
+        "opt": [5.0, 7.0],
+        "toleranz": 1.0,
+        "gewicht": 0.7
+      },
+      "monate": [0, 0, 0, 0, 0, 0.2, 0.5, 0.9, 1, 0.8, 0.2, 0],
+      "temp": {
+        "opt": 15
+      },
+      "info": "Zersetzer ohne Baumpartner. Waldränder, Lichtungen, lichte Wälder und Wiesen am Wald.",
+      "vorsicht": "Nur große Exemplare (Hut über 10 cm) mit genattertem Stiel und verschiebbarem Ring – kleine Schirmlinge können tödlich giftig sein. Junge Exemplare nicht mit dem Pantherpilz verwechseln."
+    },
+    {
+      "id": "hallimasch",
+      "name": "Hallimasch",
+      "latein": "Armillaria spp.",
+      "habitat": "parasit",
+      "baeume": {
+        "fichte": 1.0,
+        "kiefer": 0.8,
+        "buche": 0.8,
+        "eiche": 0.8,
+        "tanne": 0.8,
+        "birke": 0.7,
+        "laerche": 0.7,
+        "douglasie": 0.7,
+        "laub_lang": 0.7,
+        "laub_kurz": 0.7,
+        "erle": 0.6
+      },
+      "ph": {
+        "opt": [4.0, 7.0],
+        "toleranz": 1.0,
+        "gewicht": 0
+      },
+      "monate": [0, 0, 0, 0, 0, 0, 0.1, 0.2, 0.8, 1, 0.8, 0.2],
+      "temp": {
+        "opt": 11
+      },
+      "info": "Parasit und Zersetzer an Stubben und geschwächten Bäumen, oft massenhaft nach den ersten kühlen Nächten.",
+      "vorsicht": "Roh giftig! Mindestens 15–20 Minuten garen, Kochwasser wegschütten. Verwechslung mit dem tödlich giftigen Gifthäubling."
+    },
+    {
+      "id": "edelreizker",
+      "name": "Edelreizker",
+      "latein": "Lactarius deliciosus",
+      "habitat": "mykorrhiza",
+      "baeume": {
+        "kiefer": 1.0
+      },
+      "ph": {
+        "opt": [5.8, 7.5],
+        "toleranz": 0.8,
+        "gewicht": 0.5
+      },
+      "monate": [0, 0, 0, 0, 0, 0, 0.2, 0.5, 1, 1, 0.5, 0],
+      "temp": {
+        "opt": 11
+      },
+      "info": "Bei Kiefern auf kalkhaltigen Böden (z. B. Geschiebemergel der Endmoränen, Kalk-Kiefernforste).",
+      "vorsicht": "Milch karottenorange. Verwechslung mit dem giftigen Birkenreizker (weiße Milch, zottiger Hutrand)."
+    }
+  ]
+}

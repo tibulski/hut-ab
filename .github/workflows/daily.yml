@@ -1,0 +1,52 @@
+name: Tägliche Pilzprognose
+
+on:
+  schedule:
+    # UFZ aktualisiert die Karten gegen 10:10 UTC; Prognose fuer morgen danach rechnen
+    - cron: '40 11 * * *'
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths: ['web/**', 'scripts/**', 'data/arten.json', 'data/modell.json', 'data/static/**']
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      TZ: Europe/Berlin
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+      - run: pip install -r requirements.txt
+      - name: Bodenfeuchte (UFZ-Dürremonitor)
+        run: python scripts/fetch_ufz.py
+      - name: Wetter (Open-Meteo)
+        run: python scripts/fetch_weather.py
+      - name: Prognose für morgen berechnen
+        run: python scripts/build_daily.py
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: web
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

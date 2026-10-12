@@ -5,6 +5,17 @@ Eine App, die anzeigt, wo rund um Berlin die Chancen auf Pilze am besten sind �
 auf Basis von Bodenfeuchte (UFZ-Dürremonitor) und Niederschlag. Die Daten
 sollen automatisch (z. B. täglich) aktualisiert werden.
 
+## Stand 12.10.2026 (Claude-Code-Sitzung)
+Web-App unter `web/` (Leaflet, Artauswahl „Was suche ich?“ mit 10 Speisepilzen, Prognose immer für **morgen**,
+Top-10-Sammelstellen, Klick-Infos, Schutzgebiete). Pipeline und Aufbau: siehe `README.md`.
+Modell, Parameter und Literaturbelege: `docs/MODELL.md`, `data/modell.json`, `data/arten.json`.
+- Analyse-Raster: `scripts/grid.py` (EPSG:3857, 300 m, 1337 × 1402 Zellen) – alle Ebenen darauf.
+- Statische Ebenen in `data/static/` (Thünen-Baumarten per WCS, SoilGrids-pH, LfU-Schutzgebiete per WFS, GeoNames-Orte).
+- Täglich: `fetch_ufz.py` → `fetch_weather.py` → `build_daily.py` → `web/data/` (GitHub Action `daily.yml`, Pages).
+- Offene Punkte: Kalibrierung mit GBIF-Funden; Bestandesalter/Kronenschluss, N-Deposition; Berliner Schutzgebiete
+  (FIS-Broker); Bodenfeuchte-Prognose (Open-Meteo `soil_moisture`); Lizenz der Thünen-Baumartenkarte klären.
+- Erkenntnis: Overpass-API war am 12.10. dauerhaft überlastet → Ortsnamen aus GeoNames.
+
 ## Was es schon gibt (Ergebnis einer Cowork-Sitzung vom 11./12.10.2026)
 - `output/Pilzkarte_Schorfheide_Chorin.html` – Leaflet-Karte (OSM-Kacheln) mit Raster-Overlay
 - `output/Pilzkarte_Schorfheide_Chorin.png` – statische Vorschau (matplotlib)

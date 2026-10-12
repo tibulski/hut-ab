@@ -1,0 +1,4 @@
+# Taegliche Pipeline (fetch_ufz, fetch_weather, build_daily)
+numpy>=2.0
+scipy>=1.11
+pillow>=10.0

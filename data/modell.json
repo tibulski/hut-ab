@@ -1,0 +1,41 @@
+{
+  "_hinweis": "Modellparameter mit Belegen – Details und Quellen in docs/MODELL.md. 'beleg' = Kurzverweis, 'experte' = keine publizierte Zahl, Expertenschätzung.",
+  "wirt_saettigung": 0.5,
+  "wirt_min": 0.05,
+  "ph_boden": 0.2,
+  "wetter": {
+    "regen": {
+      "fenster_tage": 26, "frisch_tage": 4, "frisch_gewicht": 0.5,
+      "rampe_mm": [25, 80],
+      "regentag_mm": 1, "regentage_voll": 8, "regentage_exponent": 0.3,
+      "beleg": "Brejon Lamartinière & Hoffman 2025 (Preprint, 26 Tage, 2–4 mm/Tag, linear); Karavani et al. 2018 (1 Monat Verzug, Regentage); Salerni et al. 2002 (30 Tage); ČHMÚ-Pilzprognose (30 Tage)"
+    },
+    "bodenwasser": {
+      "nfk_rampe": [30, 60],
+      "duerre_ab_klasse": 3, "duerre_faktor": 0.5,
+      "ohne_nfk_nach_klasse": [0.8, 0.6, 0.4, 0.25, 0.15, 0.05],
+      "beleg": "Karavani et al. 2018 (Bodenfeuchte erklärt Vorkommen, AUC 0,93); Ágreda et al. 2015 (Wasserbilanz); Schwellen = UFZ-Trockenstressklassen (experte)"
+    },
+    "temperatur": {
+      "mittel_tage": 20, "sigma": 3.5,
+      "beleg": "Brejon Lamartinière & Hoffman 2025 (B. edulis: Optimum 13 °C im 20-Tage-Mittel); artspezifische Verschiebungen experte"
+    },
+    "hitze": {
+      "tage": 7, "tmax_grad": 28, "abzug_je_tag": 0.15, "minimum": 0.3,
+      "beleg": "Karavani et al. 2018 (hohe Tmax im Sep/Okt negativ); ČHMÚ 'warm, nicht heiß' (schwach)"
+    },
+    "frost": {
+      "tage": 10, "tmin_grad": -2, "faktor_eine_nacht": 0.5, "faktor_drei_naechte": 0.1,
+      "beleg": "experte; Karavani et al. 2018 (niedrige Tmin begrenzen Spätsaison)"
+    },
+    "boden_min": 0.03,
+    "exponenten": {"regen": 0.35, "bodenwasser": 0.25, "temperatur": 0.30, "hitze": 0.10}
+  },
+  "spots": {
+    "anzahl": 10,
+    "min_score": 15,
+    "perzentil": 97,
+    "min_zellen": 3,
+    "min_abstand_km": 4
+  }
+}

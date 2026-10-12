@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Hut ab! – Pilzprognose Berlin/Brandenburg</title>
+  <meta name="description" content="Wo stehen morgen die Chancen auf Steinpilz, Marone, Pfifferling & Co.? Tägliche Pilzprognose für Berlin und Brandenburg aus Bodenfeuchte, Wetter, Baumarten und Boden.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🍄</text></svg>">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand"><span class="logo">🍄</span> Hut ab!</div>
+    <div class="forecast-date" id="forecastDate">Prognose wird geladen …</div>
+    <button class="icon-btn" id="infoBtn" aria-label="Info und Quellen">i</button>
+  </header>
+
+  <main class="layout">
+    <aside class="panel" id="panel">
+      <button class="sheet-handle" id="sheetHandle" aria-label="Liste ein-/ausklappen"></button>
+
+      <section class="menu-section">
+        <h2>Was suche ich?</h2>
+        <div class="species-grid" id="speciesGrid" role="listbox" aria-label="Pilzart auswählen"></div>
+      </section>
+
+      <section class="menu-section" id="speciesDetail" hidden>
+        <div class="detail-head">
+          <img id="detailImg" alt="">
+          <div>
+            <h3 id="detailName"></h3>
+            <div class="latin" id="detailLatin"></div>
+            <div class="season" id="detailSeason"></div>
+          </div>
+        </div>
+        <p id="detailInfo"></p>
+        <p class="warn" id="detailWarn"></p>
+        <div class="credit" id="detailCredit"></div>
+      </section>
+
+      <section class="menu-section">
+        <h2 id="spotsTitle">Beste Sammelstellen morgen</h2>
+        <ol class="spots" id="spotsList"></ol>
+      </section>
+
+      <section class="menu-section legend">
+        <h2>Legende</h2>
+        <div class="scale"><span>0</span><div class="bar" id="legendBar"></div><span>50+</span></div>
+        <div class="scale-labels"><span>schwach</span><span>mäßig</span><span>gut</span><span>sehr gut</span></div>
+        <label class="toggle"><input type="checkbox" id="toggleProtected" checked> Schutzgebiete zeigen</label>
+        <div class="legend-row"><span class="sw sw-core"></span> Kernzone / Totalreservat – Betreten verboten</div>
+        <div class="legend-row"><span class="sw sw-nsg"></span> Naturschutzgebiet – Sammeln meist verboten</div>
+        <p class="small">Tipp: In die Karte tippen zeigt Wald, Baumarten, Boden und Wetter an dieser Stelle.</p>
+      </section>
+    </aside>
+
+    <div id="map" aria-label="Karte"></div>
+  </main>
+
+  <dialog id="infoDialog">
+    <form method="dialog"><button class="close" aria-label="Schließen">×</button></form>
+    <h2>Über Hut ab!</h2>
+    <p><strong>Wichtig:</strong> Diese Karte schätzt nur, wo die Bedingungen für bestimmte Pilze morgen günstig sind.
+      Sie ersetzt <strong>keine Pilzbestimmung</strong>. Sammeln Sie nur, was Sie sicher kennen, und lassen Sie Funde im Zweifel von
+      <a href="https://www.dgfm-ev.de/pilze-finden-und-bestimmen/pilzsachverstaendige" target="_blank" rel="noopener">Pilzsachverständigen der DGfM</a> prüfen.
+      Bei Vergiftungsverdacht: <a href="tel:+493019240">Giftnotruf Berlin/Brandenburg 030 19240</a> oder 112.</p>
+    <p>Beachten Sie Schutzgebietsverordnungen, Sperrungen und das Betretungsrecht. In Naturschutzgebieten ist das Sammeln
+      meist verboten; Kernzonen dürfen nicht betreten werden. Haushaltsübliche Mengen für den Eigenbedarf (BNatSchG § 39).
+      Die Schutzgebiete für <em>Berlin</em> sind noch nicht enthalten.</p>
+    <h3>Wie die Prognose entsteht</h3>
+    <p>Für jede Art und jede ca. 180 × 180 m große Rasterzelle wird ein Wert von 0–100 berechnet:</p>
+    <ul class="sources">
+      <li><strong>Lebensraum:</strong> Anteil passender Partnerbäume (Mykorrhiza- bzw. Wirtsbaum) aus der Thünen-Baumartenkarte, Boden-pH, Saison.</li>
+      <li><strong>Regen:</strong> Summe der letzten 26 Tage (frischer Regen zählt halb, weil Fruchtkörper erst ein bis vier Wochen später erscheinen) und Zahl der Regentage.</li>
+      <li><strong>Bodenwasser:</strong> pflanzenverfügbares Wasser und Dürreklasse im Oberboden (UFZ).</li>
+      <li><strong>Temperatur:</strong> 20-Tage-Mittel inkl. Prognose für morgen, artspezifisches Optimum (Steinpilz ≈ 13 °C), Abschläge für Hitze- und Frosttage.</li>
+    </ul>
+    <p>Die Zusammenhänge stützen sich auf Studien zu Pilzfruktifikation und Witterung (u. a. Karavani et al. 2018, Ágreda et al. 2015,
+      Alday et al. 2017, Büntgen et al. 2013) und auf das Vorgehen der tschechischen Pilzprognose des ČHMÚ.
+      Einiges – z. B. Frost-Schwellen und die Temperaturoptima der meisten Arten – ist Expertenschätzung.
+      Der Wert beschreibt <em>günstige Bedingungen</em>, nicht garantierte Funde. Eine Kalibrierung mit Fundmeldungen (GBIF) steht noch aus.
+      <a href="https://github.com/tibulski/hut-ab/blob/main/docs/MODELL.md" target="_blank" rel="noopener">Methode und Quellen im Detail</a></p>
+    <h3>Daten & Lizenzen</h3>
+    <ul class="sources" id="sourcesList">
+      <li>Bodenfeuchte: <a href="https://www.ufz.de/index.php?de=37937" target="_blank" rel="noopener">UFZ-Dürremonitor</a>, Helmholtz-Zentrum für Umweltforschung</li>
+      <li>Baumarten: Blickensdörfer et al. (2022), Dominant Tree Species for Germany 2017/2018, <a href="https://atlas.thuenen.de/catalogue/uuid/3810c144-756b-11ed-a6bf-0242ac120008" target="_blank" rel="noopener">Thünen-Atlas</a></li>
+      <li>Boden-pH: <a href="https://soilgrids.org" target="_blank" rel="noopener">ISRIC SoilGrids 2.0</a> (CC BY 4.0)</li>
+      <li>Schutzgebiete: Landesamt für Umwelt Brandenburg (Datenlizenz Deutschland – Namensnennung 2.0)</li>
+      <li>Wetter: <a href="https://open-meteo.com" target="_blank" rel="noopener">Open-Meteo.com</a> (CC BY 4.0)</li>
+      <li>Ortsnamen: <a href="https://www.geonames.org" target="_blank" rel="noopener">GeoNames</a> (CC BY 4.0)</li>
+      <li>Karte: © <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap-Mitwirkende</a></li>
+    </ul>
+    <p class="small" id="buildInfo"></p>
+  </dialog>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

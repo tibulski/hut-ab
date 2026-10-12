@@ -7,3 +7,5 @@ __pycache__/
 Thumbs.db
 cache/
 __pycache__/
+data/daily/
+web/data/

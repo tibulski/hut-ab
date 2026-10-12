@@ -168,7 +168,8 @@ def main():
                           'properties': {'cls': cls, 'sm': s, 'nfk': None if p in (-1, 99) else p * 10}})
             i = k + 1
 
-    out = args.out or os.path.join(ROOT, 'data', f'ufz_{args.region}.geojson')
+    out = args.out or os.path.join(ROOT, 'data', 'daily', f'ufz_{args.region}.geojson')
+    os.makedirs(os.path.dirname(out), exist_ok=True)
     gj = {'type': 'FeatureCollection',
           'metadata': {'date': date, 'region': args.region, 'source': 'UFZ-Duerremonitor',
                        'sm_classes': SM_NAMES, 'nfk': 'Untergrenze der 10-%-Klasse, null = keine Daten',
