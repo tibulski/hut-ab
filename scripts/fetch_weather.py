@@ -39,10 +39,14 @@ def fetch(points):
                 d = json.load(r)
             return d if isinstance(d, list) else [d]
         except urllib.error.HTTPError as e:
-            if e.code != 429:
+            if e.code != 429 and e.code < 500:
                 raise
-            time.sleep(30 * (attempt + 1))
-    raise RuntimeError('Open-Meteo: zu viele Anfragen (429)')
+            err = e
+        except (urllib.error.URLError, TimeoutError, ConnectionError) as e:   # z. B. TLS-Handshake-Timeout
+            err = e
+        print(f'  Open-Meteo: {err} - neuer Versuch {attempt + 1}/4')
+        time.sleep(30 * (attempt + 1))
+    raise RuntimeError(f'Open-Meteo nicht erreichbar: {err}')
 
 
 def main():
