@@ -122,16 +122,22 @@ def fungi_background():
     q = {'taxonKey': 5, 'decimalLatitude': f'{grid.SOUTH},{grid.NORTH}', 'decimalLongitude': f'{grid.WEST},{grid.EAST}',
          'hasCoordinate': 'true', 'hasGeospatialIssue': 'false', 'basisOfRecord': 'HUMAN_OBSERVATION',
          'year': '2019,2025', 'limit': 300}
-    pts, off = [], 0
-    while off < 60000:
-        d = json.load(urllib.request.urlopen('https://api.gbif.org/v1/occurrence/search?'
-                                             + urllib.parse.urlencode(dict(q, offset=off)), timeout=120))
-        pts += [[round(r['decimalLatitude'], 4), round(r['decimalLongitude'], 4)] for r in d['results']
-                if (r.get('coordinateUncertaintyInMeters') or 0) <= 2000]
-        off += 300
-        if d['endOfRecords']:
-            break
-        time.sleep(0.3)
+    # Stichprobe ohne tiefe Seiten (die sind bei GBIF sehr langsam): je Jahr und Monat die ersten 300 Treffer
+    pts = []
+    for y in range(2019, 2026):
+        for mo in range(1, 13):
+            for k in range(3):
+                try:
+                    d = json.load(urllib.request.urlopen('https://api.gbif.org/v1/occurrence/search?'
+                                                         + urllib.parse.urlencode(dict(q, year=y, month=mo)), timeout=60))
+                    break
+                except Exception as e:
+                    print('  GBIF:', e, flush=True); time.sleep(5)
+            else:
+                continue
+            pts += [[round(r['decimalLatitude'], 4), round(r['decimalLongitude'], 4)] for r in d['results']
+                    if (r.get('coordinateUncertaintyInMeters') or 0) <= 2000]
+        print(f'  {y}: {len(pts)} Orte', flush=True)
     json.dump(pts, open(path, 'w', encoding='utf-8'))
     return pts
 
