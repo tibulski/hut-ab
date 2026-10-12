@@ -1,66 +1,67 @@
-# Hut ab! – Prognosemodell und Belege
+# Hut ab! – Prognosemodell, Kalibrierung und Belege
 
-Stand: 12.10.2026. Parameter: [`data/modell.json`](../data/modell.json), Artsteckbriefe: [`data/arten.json`](../data/arten.json),
-Umsetzung: [`scripts/build_daily.py`](../scripts/build_daily.py).
+Stand: 13.10.2026. Parameter: [`data/modell.json`](../data/modell.json), Artsteckbriefe: [`data/arten.json`](../data/arten.json),
+Umsetzung: [`scripts/build_daily.py`](../scripts/build_daily.py) (identisch im Browser: [`web/app.js`](../web/app.js)).
+Kalibrierung: [`docs/KALIBRIERUNG.md`](KALIBRIERUNG.md), `data/kalibrierung*.json`. Prüfung: [`scripts/validate.py`](../scripts/validate.py).
 
-Der Score (0–100) beschreibt, wie **günstig die Bedingungen morgen** für Fruchtkörper einer Art in einer
-ca. 180 × 180 m großen Rasterzelle sind. Er sagt nicht, dass dort Pilze stehen. Auch das operative
+Die Chance (0–100) beschreibt, wie **günstig die Bedingungen morgen** für Fruchtkörper einer Art in einer
+ca. 180 × 180 m großen Rasterzelle sind. Sie sagt nicht, dass dort Pilze stehen. Auch das operative
 Vorbild, die tschechische Pilzprognose des ČHMÚ, liegt lokal oft daneben.
 
 ## Formel
 
 ```
-Score = 100 · Saison · Wirt · pH · Wetter
-Wetter = R^0,35 · B^0,25 · T^0,30 · X^0,10 · Frost
+Chance = 100 · Saison · Partnerbäume · Standort · Bestand · Wetter
+Wetter = Regen^0,35 · Bodenwasser^0,25 · Temperatur^0,30 · Hitze^0,10 · Frost
 ```
 
-Das Wetter ist ein **gewichtetes geometrisches Mittel**. Ein einzelner limitierender Faktor, etwa Dürre
-oder fehlender Regen, drückt den Score deshalb stark, wie bei einem Minimumfaktor. Jeder Faktor wird
-vorher auf mindestens 0,03 begrenzt.
+Das Wetter ist ein **gewichtetes geometrisches Mittel**: Ein einzelner sehr ungünstiger Faktor (etwa Dürre)
+drückt die Chance stark, wie bei einem Minimumfaktor. Jeder Wetterfaktor wird vorher auf mindestens 0,03 begrenzt.
+In der App lässt sich jeder Faktor einzeln ansehen und abschalten; die Chance wird dann im Browser neu berechnet.
 
-| Faktor | Form | Parameter | Beleg | Evidenz |
-|---|---|---|---|---|
-| **R Regen** | Rampe auf der Regensumme der Tage t−26 … t−1; Regen der letzten 4 Tage zählt halb. Dazu ein Regentage-Faktor min(1, n/8)^0,3 | 0 bei ≤ 25 l/m², 1 ab 80 l/m² (≈ 1–3 mm/Tag) | Brejon Lamartinière & Hoffman 2025: 26-Tage-Fenster, 2–4 mm/Tag, linear, Steinpilz bei Bielefeld. Karavani et al. 2018: 1 Monat Verzug, Zahl der Regentage besser als Summe. Salerni et al. 2002: 30 Tage. ČHMÚ: 30 Tage | mittel |
-| **B Bodenwasser** | Rampe auf UFZ-%nFK 0–25 cm (Klassenmitte); ab „schwere Dürre“ ×0,5. Ohne nFK-Daten (Berlin): Wert je Dürreklasse | 0 bei ≤ 30 %nFK, 1 ab 60 %nFK | Karavani et al. 2018: Bodenfeuchte erklärt das Vorkommen (AUC 0,93 gegenüber 0,90). Ágreda et al. 2015: Wasserbilanz. Schwellen folgen den UFZ-Trockenstressklassen | mittel (Schwellen: Experte) |
-| **T Temperatur** | Gauß-Kurve auf dem 20-Tage-Mittel (t−19 … t, inkl. Prognose) | σ = 3,5 °C; Optimum Steinpilz 13 °C, übrige Arten ±2 °C (siehe unten) | Brejon Lamartinière & Hoffman 2025: Optimum ≈ 13 °C, meiste Funde bei 10–15 °C. Karavani et al. 2018: Temperatur begrenzt die Saison an beiden Enden | Steinpilz mittel, übrige Arten Experte |
-| **X Hitze** | 1 − 0,15 · Hitzetage (Tmax ≥ 28 °C in 7 Tagen), mindestens 0,3 | | Karavani et al. 2018: hohe Tmax im Sep/Okt wirken negativ | schwach |
-| **Frost** | ×0,5 nach einer Nacht ≤ −2 °C in 10 Tagen, ×0,1 ab drei solchen Nächten | | Expertenwissen; Karavani et al. 2018: niedrige Tmin begrenzen die Spätsaison | schwach |
-| **Saison** | Monatsgewicht 0–1 je Art | `arten.json` → `monate` | Pilzführer. Das ČHMÚ-Modell nutzt ebenfalls einen Saisonkoeffizienten | Experte → mit GBIF kalibrieren |
-| **Wirt** | Σ Baumartenanteil × Wirtsgewicht; 50 % passende Bäume in der Zelle ergeben den vollen Wert. Parasol (Zersetzer): maximal bei ca. 50 % Wald (Waldrand/Lichtung) | Thünen-Baumartenkarte | Artsteckbriefe (Mykorrhizapartner). Obligate Partner: Birkenpilz → Birke, Butterpilz/Edelreizker → Kiefer | gut (Partnerbäume), Gewichte Experte |
-| **pH** | Trapez um das pH-Optimum der Art, Untergrenze 0,2, mit Artgewicht abgeschwächt | SoilGrids pH(H₂O) 0–15 cm | Pilzführer. Taye et al. 2016: saurer Boden erhöht *Lactarius*-Erträge (Spanien) – deshalb Edelreizker-pH-Gewicht nur 0,5 | schwach |
-| **Schutz** | Kernzonen = Score 0. NSG werden in der Karte angezeigt, aber nicht als Sammelstelle vorgeschlagen | LfU Brandenburg | rechtlich, nicht ökologisch | – |
+## Faktoren
 
-### Temperatur-Optima (20-Tage-Mittel)
-Steinpilz 13 °C (belegt) · Marone 12 · Pfifferling 15 · Birkenpilz 13 · Rotkappe 13 · Butterpilz 11 ·
-Krause Glucke 13 · Parasol 15 · Hallimasch 11 · Edelreizker 11 (alle außer Steinpilz: Expertenschätzung,
-Verschiebung um ±2 °C nach Hauptsaison).
+| Faktor | Daten (offen abrufbar) | Form | Beleg / Kalibrierung |
+|---|---|---|---|
+| **Saison** | – | Monatsgewicht je Art | **kalibriert:** Funde je Monat ÷ alle Pilzmeldungen je Monat (GBIF 2019–2025), mit Pilzführer-Kurve geschrumpft (w = n/(n+150)) |
+| **Partnerbäume** | Thünen-Baumartenkarte 2017/18 (10 m) | Σ Baumartenanteil × Wirtsgewicht, voll ab 50 % passenden Bäumen; Parasol: Waldrand (≈ 50 % Wald) | Mykorrhiza-/Wirtsbeziehungen (Pilzführer, Literatur). Trägt den größten Teil des räumlichen Signals (siehe Prüfung) |
+| **Standort** | Forstliche Standortskarte Brandenburg (LFB): Nährkraft A–R; sonst SoilGrids-pH | Eignung je Nährkraftstufe | **kalibriert** an Funden vs. alle Pilzmeldungen. Bestätigt: Marone, Pfifferling, Butterpilz auf armen Standorten, Hallimasch auf reichen. **Widerlegt:** Kalkvorliebe des Edelreizkers (Funde v. a. auf armen Sanden; vgl. Taye et al. 2016) |
+| **Bestand** | DLR: Kronenhöhe und -deckung 2023, Kronenverlust seit 2017; UBA: N-Deposition | Kulturen < 4 m ×0,5; Butterpilz 3–15 m, Krause Glucke ≥ 18 m; Deckung < 20 % ×0,6; frischer Kronenverlust bis −80 %; Waldrand-Bonus; N-Abschlag bis −50 % (Pfifferling) | Ortega-Martínez et al. 2011, Sánchez-González et al. 2019, van Strien et al. 2018, Arnolds 1991; Stärken = Expertenschätzung |
+| **Regen & Wasserbilanz** | Open-Meteo (Regen, ET0) | Rampe auf Regen − Verdunstung der Tage t−26…t−1 (frischer Regen der letzten 4 Tage halb), mal Regentage-Faktor | Fenster: Brejon Lamartinière & Hoffman 2025, Karavani et al. 2018, Salerni et al. 2002, ČHMÚ. **Schwellen kalibriert:** relative Funddichte ≈ 0,2 bei −50 mm, ≈ 0,7 ab −20 mm → Rampe −55 … −15 mm. Wasserbilanz statt Regen: Ágreda et al. 2015 |
+| **Bodenwasser** | DWD AMBAV (Kiefer, 0–30 cm, 1 km, täglich); UFZ-Dürremonitor als Rückfall; Open-Meteo-Bodenfeuchteprognose | Rampe auf % nFK, mit der modellierten Änderung bis morgen fortgeschrieben; grundwassernahe/nasse Standorte puffern | Karavani et al. 2018. **Schwellen kalibriert:** an Fundtagen Median ≈ 46 % nFK, Hintergrund 32 % → Rampe 12,5 … 57,5 % nFK (1.424 Funde) |
+| **Temperatur** | Open-Meteo (20-Tage-Mittel inkl. Prognose) | Gauß-Kurve um das Art-Optimum | **kalibriert** mit ERA5 an den Fundtagen: Steinpilz 13,0 °C (σ 3,25) – identisch mit Brejon Lamartinière & Hoffman 2025; Marone/Butterpilz 11,25 °C, Edelreizker/Hallimasch 10,75 °C, Pfifferling 15 °C |
+| **Hitze & Frost** | Open-Meteo (Tmax, Tmin, Bodentemperatur) | −15 % je Hitzetag ≥ 28 °C (7 T.); ×0,5 nach Frostnacht ≤ −2 °C, ×0,1 ab drei (10 T.); Boden < 2 °C ×0,5 | Karavani et al. 2018 (schwach); Schwellen = Expertenschätzung |
+| **Schutz** | LfU Brandenburg (WFS) | Kernzonen = 0; NSG angezeigt, nicht als Stelle vorgeschlagen | rechtlich |
 
-## Sammelstellen („Top 10 für morgen“)
-Zellen mit Score ≥ max(15; 97. Perzentil), mit Lebensraum und ohne Schutzgebiet, werden zu
-zusammenhängenden Flächen gruppiert. Die Rangfolge ergibt sich aus mittlerem Score × (1 + log₁₀ Zellenzahl),
-mindestens 3 Zellen (≈ 10 ha), mindestens 4 km Abstand zwischen zwei Sammelstellen. Die Ortsangabe nennt den
-nächsten GeoNames-Ort.
+## Sammelstellen
+Server (Startansicht): zusammenhängende Flächen mit Chance ≥ max(15; 97. Perzentil), außerhalb von Schutzgebieten.
+App: Zellen im gewählten Umkreis, 3×3-geglättet, beste zuerst, mindestens 4 km Abstand. Ortsangabe: nächster GeoNames-Ort.
+
+## Prüfung (Stand 13.10.2026)
+AUC = Wahrscheinlichkeit, dass ein Fundort höher bewertet wird als ein Vergleichsort (0,5 = Zufall).
+- **Räumlich, wetterunabhängig:** Funde der Art (GBIF 2019–2025) gegen 21.000 Orte *aller* Pilzmeldungen
+  (korrigiert die Beobachtungsverzerrung zu Stadtnähe und Wegen): **AUC 0,62** im Mittel (Marone 0,66, Butterpilz 0,69,
+  Krause Glucke 0,69, Edelreizker 0,70; Steinpilz 0,53, Parasol 0,52, Hallimasch 0,54).
+  Fast das gesamte Signal kommt aus den Partnerbäumen; Standort, Bestand und Stickstoff ändern die AUC um weniger als ±0,01.
+- **Aktuelle Funde (iNaturalist, 14 Tage, ≈ 200 Funde):** AUC 0,56–0,63 je nach Modellvariante – wegen der kleinen Zahl nur grob.
+- Folgerung: Die **zeitliche** Vorhersage (wann) ist gut belegt; die **räumliche** Feinauswahl (wo genau) bleibt unsicher.
+  Die App zeigt deshalb die Faktoren offen und lässt eigene Gewichtung zu.
 
 ## Wichtige Einschränkungen
-1. Die einzige tagesgenau aufgelöste deutsche Studie (Bielefeld, Steinpilz unter Buche) ist ein **nicht
-   begutachteter Preprint**. Die meisten quantitativen Ertragsmodelle stammen aus Spanien (Kiefer, Monatswerte).
-   Dass sie auf Brandenburger Kiefernforste auf Sand übertragbar sind, ist plausibel, aber nicht geprüft.
-2. Für Frost, einen Kälteauslöser und pilzspezifische nFK-Schwellen gibt es keine publizierten Zahlen.
-3. Die Temperaturreaktionen der einzelnen Arten sind kaum untersucht und uneinheitlich (Andrew et al. 2018).
-4. SoilGrids-pH ist modelliert (250 m) und überschätzt Waldoberböden auf Sand vermutlich.
-5. UFZ-Werte stammen aus PNG-Pixeln (±1 km). Die Bodenfeuchte ist der Vortageswert, keine Prognose.
-6. **Bestandesalter, Grundfläche/Kronenschluss und Stickstoffeintrag** sind noch nicht enthalten, obwohl sie belegt
-   wirken (siehe unten).
+1. Fundmeldungen sind keine Ertragsdaten (nur Vorkommen, mit Beobachtungsverzerrung); Funddatum ≠ Erscheinungsdatum.
+2. Für Frost, Hitze und die Stärke der Bestandesfaktoren gibt es keine publizierten Zahlen (Expertenschätzung).
+3. DWD-Bodenfeuchte nur für Kiefer gerechnet; Laubwald wird damit angenähert.
+4. Rotkappe (26 Funde) und Birkenpilz (≈ 100) sind schwach belegt.
+5. Berliner Schutzgebiete fehlen noch; die Forstliche Standortskarte deckt nur Brandenburg ab.
 
-## Nächste Ausbaustufen (belegt, mit offenen Datenquellen)
-| Faktor | Beleg | mögliche Datenquelle |
+## Nächste Ausbaustufen
+| Idee | Nutzen | Daten |
 |---|---|---|
-| Kronenschluss/Grundfläche: Optimum 30–40 m²/ha | Sánchez-González et al. 2019 | Copernicus HRL Tree Cover Density (10 m); Kronenhöhe (ETH Global Canopy Height, Lang et al. 2023, noch nicht geprüft) als Ersatzgröße |
-| Bestandesalter: Butterpilz in jungen Kiefern, Krause Glucke an alten | Ortega-Martínez et al. 2011; Tahvanainen et al. 2016; Taye et al. 2016 | Kronenhöhe als Altersersatz |
-| Stickstoffeintrag schadet Mykorrhizapilzen, besonders Pfifferling | Arnolds 1991; van Strien et al. 2018; Lilleskov et al. 2002 | UBA-Depositionskarten (PINETI) |
-| Artspezifische pH- und N-Zeigerwerte | Simmel, Bässler & Poschlod 2017 (≈ 650 Arten) | Tabelle aus dem Paper |
-| Bodenfeuchte-Prognose statt Vortageswert | Karavani et al. 2018 | Open-Meteo `soil_moisture_3_to_9cm` (stündlich) |
-| Kalibrierung Saison/Optima | – | GBIF-Funde (iNaturalist, naturgucker, Observation.org): Fundtage 2015–2025 gegen den Tages-Score |
+| Fundhistorie als Ebene | Krause Glucke und Steinpilz fruchten oft jahrelang an denselben Stellen | GBIF/iNaturalist |
+| DWD-Bodenfeuchte auch für Buche/Eiche | genauer im Laubwald | DWD AMBAV `beech`/`oak` |
+| Regen aus Radar statt Modell | trifft lokale Schauer | DWD RADOLAN |
+| Simmel et al. 2017 Zeigerwerte | artspezifische N-/pH-Vorlieben | Paper-Tabelle |
+| Rückmeldungen aus der App („gefunden/nichts gefunden“) | echte Ja/Nein-Daten zur Kalibrierung | eigene Datenbank |
 
 ## Quellen
 Die Angaben wurden per Literaturrecherche geprüft (DOI bzw. Datenbankeintrag). Bei den mit * markierten Arbeiten

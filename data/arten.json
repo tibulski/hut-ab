@@ -46,11 +46,11 @@
       "info": "Mykorrhiza mit Fichte, Buche, Eiche und Kiefer (Kiefern-Steinpilz). Liebt Wald- und Wegränder sowie lichte, ältere Bestände.",
       "vorsicht": "Verwechslung mit dem bitteren Gallenröhrling (dunkles Netz am Stiel, rosa Poren).",
       "naehrkraft": {
-        "A": 0.6,
-        "Z": 1,
-        "M": 1,
-        "K": 0.9,
-        "R": 0.6
+        "A": 0.88,
+        "Z": 1.0,
+        "M": 0.85,
+        "K": 0.85,
+        "R": 0.63
       },
       "stickstoff_empfindlich": 0.6,
       "waldrand": 0.4
@@ -100,11 +100,11 @@
       "info": "In Brandenburg der häufigste Speisepilz der Kiefernforste. Saure, nährstoffarme Sandböden.",
       "vorsicht": "Poren verfärben sich auf Druck blau – das ist normal. Gut garen.",
       "naehrkraft": {
-        "A": 1,
-        "Z": 1,
-        "M": 0.7,
-        "K": 0.4,
-        "R": 0.2
+        "A": 1.0,
+        "Z": 0.92,
+        "M": 0.59,
+        "K": 0.31,
+        "R": 0.15
       },
       "stickstoff_empfindlich": 0.6,
       "waldrand": 0
@@ -152,11 +152,11 @@
       "info": "Saure, nährstoffarme Böden, gern moosig. Stickstoffeintrag schadet. Mag warm-feuchte Sommer.",
       "vorsicht": "Verwechslung mit dem Falschen Pfifferling und dem giftigen Ölbaumtrichterling (wächst büschelig an Holz).",
       "naehrkraft": {
-        "A": 1,
-        "Z": 1,
-        "M": 0.6,
-        "K": 0.3,
-        "R": 0.15
+        "A": 1.0,
+        "Z": 0.98,
+        "M": 0.67,
+        "K": 0.44,
+        "R": 0.17
       },
       "stickstoff_empfindlich": 1.0,
       "waldrand": 0
@@ -199,11 +199,11 @@
       "info": "Streng an Birken gebunden – auch einzelne Birken in Kiefernforsten und an Waldrändern.",
       "vorsicht": "Gut durchgaren.",
       "naehrkraft": {
-        "A": 0.9,
-        "Z": 1,
-        "M": 1,
-        "K": 0.8,
-        "R": 0.6
+        "A": 1.0,
+        "Z": 0.99,
+        "M": 0.98,
+        "K": 0.83,
+        "R": 0.54
       },
       "stickstoff_empfindlich": 0.4,
       "waldrand": 0.3
@@ -245,11 +245,11 @@
       "info": "Heide-Rotkappe bei Birke auf sauren Böden, Espen-Rotkappe bei Zitterpappel (Aspe).",
       "vorsicht": "Roh unverträglich – mindestens 15 Minuten garen. Das Fleisch verfärbt sich schwarzgrau.",
       "naehrkraft": {
-        "A": 1,
-        "Z": 1,
-        "M": 0.8,
-        "K": 0.5,
-        "R": 0.3
+        "A": 1.0,
+        "Z": 0.97,
+        "M": 0.78,
+        "K": 0.48,
+        "R": 0.29
       },
       "stickstoff_empfindlich": 0.4,
       "waldrand": 0.2
@@ -292,11 +292,11 @@
       "info": "Bei Kiefern, besonders in jungen Beständen, an Wegrändern und auf Sandböden.",
       "vorsicht": "Schleimige Huthaut abziehen; kann bei empfindlichen Menschen Verdauungsbeschwerden auslösen.",
       "naehrkraft": {
-        "A": 0.9,
-        "Z": 1,
-        "M": 1,
-        "K": 0.8,
-        "R": 0.6
+        "A": 1.0,
+        "Z": 0.93,
+        "M": 0.84,
+        "K": 0.58,
+        "R": 0.36
       },
       "bestand": {
         "hoehe_opt": [
@@ -349,11 +349,11 @@
       "info": "Wächst am Stammfuß bzw. an den Wurzeln lebender Kiefern, oft jahrelang an derselben Stelle.",
       "vorsicht": "Gründlich reinigen (Sand, Nadeln) und garen.",
       "naehrkraft": {
-        "A": 1,
-        "Z": 1,
-        "M": 1,
-        "K": 1,
-        "R": 1
+        "A": 0.72,
+        "Z": 0.99,
+        "M": 1.0,
+        "K": 0.74,
+        "R": 0.6
       },
       "bestand": {
         "hoehe_opt": [
@@ -413,11 +413,11 @@
       "info": "Zersetzer ohne Baumpartner. Waldränder, Lichtungen, lichte Wälder und Wiesen am Wald.",
       "vorsicht": "Nur große Exemplare (Hut über 10 cm) mit genattertem Stiel und verschiebbarem Ring – kleine Schirmlinge können tödlich giftig sein. Junge Exemplare nicht mit dem Pantherpilz verwechseln.",
       "naehrkraft": {
-        "A": 0.4,
-        "Z": 0.7,
-        "M": 1,
-        "K": 1,
-        "R": 1
+        "A": 0.42,
+        "Z": 0.95,
+        "M": 1.0,
+        "K": 0.86,
+        "R": 0.94
       },
       "stickstoff_empfindlich": 0,
       "waldrand": 0
@@ -470,11 +470,11 @@
       "info": "Parasit und Zersetzer an Stubben und geschwächten Bäumen, oft massenhaft nach den ersten kühlen Nächten.",
       "vorsicht": "Roh giftig! Mindestens 15–20 Minuten garen, Kochwasser wegschütten. Verwechslung mit dem tödlich giftigen Gifthäubling.",
       "naehrkraft": {
-        "A": 0.6,
-        "Z": 0.8,
-        "M": 1,
-        "K": 1,
-        "R": 1
+        "A": 0.53,
+        "Z": 0.68,
+        "M": 0.91,
+        "K": 0.85,
+        "R": 1.0
       },
       "stickstoff_empfindlich": 0,
       "waldrand": 0
@@ -493,7 +493,7 @@
           7.5
         ],
         "toleranz": 0.8,
-        "gewicht": 0.5
+        "gewicht": 0
       },
       "monate": [
         0.0,
@@ -514,14 +514,14 @@
         "sigma": 2.25,
         "quelle": "GBIF-Kalibrierung 2026-10-13 (n=119)"
       },
-      "info": "Bei Kiefern auf kalkhaltigen Böden (z. B. Geschiebemergel der Endmoränen, Kalk-Kiefernforste).",
+      "info": "Bei Kiefern. In Brandenburg überwiegend auf armen bis mittleren Sandböden gefunden (Auswertung von Fundmeldungen) – die oft genannte Kalkvorliebe bestätigt sich hier nicht.",
       "vorsicht": "Milch karottenorange. Verwechslung mit dem giftigen Birkenreizker (weiße Milch, zottiger Hutrand).",
       "naehrkraft": {
-        "A": 0.2,
-        "Z": 0.4,
-        "M": 0.8,
-        "K": 1,
-        "R": 1
+        "A": 1.0,
+        "Z": 0.97,
+        "M": 0.9,
+        "K": 0.83,
+        "R": 0.81
       },
       "stickstoff_empfindlich": 0.5,
       "waldrand": 0
