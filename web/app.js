@@ -193,7 +193,7 @@
   const live = { id: null, punkt: null, kreis: null, folgen: false, knopf: null, gpsKnopf: null, genau: false, erster: true };
   function initLive() {
     const Knopf = L.Control.extend({
-      options: { position: 'topright' },
+      options: { position: window.matchMedia('(max-width: 760px)').matches ? 'topleft' : 'topright' }, // am Handy rechts oben liegt die Legende
       onAdd() {
         const b = L.DomUtil.create('button', 'live-knopf');
         b.type = 'button'; b.title = 'Live-Standort'; b.setAttribute('aria-label', 'Live-Standort ein/aus'); b.textContent = '◎';
@@ -206,7 +206,7 @@
     map.addControl(new Knopf());
     try { live.genau = localStorage.getItem('hutab-gps') === '1'; } catch (e) { /* privat */ }
     const GpsKnopf = L.Control.extend({
-      options: { position: 'topright' },
+      options: { position: window.matchMedia('(max-width: 760px)').matches ? 'topleft' : 'topright' }, // am Handy rechts oben liegt die Legende
       onAdd() {
         const b = L.DomUtil.create('button', 'live-knopf live-gps');
         b.type = 'button'; b.textContent = 'GPS';
