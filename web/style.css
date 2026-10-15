@@ -262,3 +262,7 @@ dialog .close { float: right; border: 0; background: none; font-size: 26px; curs
   .leaflet-control-attribution { font-size: 10px; }
   .legend-keys { display: none; }
 }
+
+.live-knopf { width: 40px; height: 40px; border: 2px solid rgba(0,0,0,.25); border-radius: 8px; background: #fff; color: #444; font-size: 24px; line-height: 1; cursor: pointer; padding: 0; }
+.live-knopf.an { color: #1a73e8; }
+.live-knopf.folgen { background: #1a73e8; color: #fff; border-color: #1a73e8; }

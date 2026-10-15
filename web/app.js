@@ -185,6 +185,62 @@
     state.layers.reach = L.layerGroup().addTo(map);
     state.mapReady = true;
     showProtected();
+    initLive();
+  }
+
+  // Live-Standort: blauer Punkt mit Genauigkeitskreis, solange die Ortung läuft.
+  // Zustände: aus -> folgen (Karte läuft mit) -> frei (Karte wurde verschoben, Antippen holt sie zurück)
+  const live = { id: null, punkt: null, kreis: null, folgen: false, knopf: null, erster: true };
+  function initLive() {
+    const Knopf = L.Control.extend({
+      options: { position: 'topright' },
+      onAdd() {
+        const b = L.DomUtil.create('button', 'live-knopf');
+        b.type = 'button'; b.title = 'Live-Standort'; b.setAttribute('aria-label', 'Live-Standort ein/aus'); b.textContent = '◎';
+        L.DomEvent.disableClickPropagation(b);
+        L.DomEvent.on(b, 'click', liveUmschalten);
+        live.knopf = b;
+        return b;
+      },
+    });
+    map.addControl(new Knopf());
+    map.on('dragstart', () => { if (live.id !== null && live.folgen) { live.folgen = false; liveKnopf(); } });
+  }
+  function liveKnopf() {
+    if (!live.knopf) return;
+    live.knopf.classList.toggle('an', live.id !== null);
+    live.knopf.classList.toggle('folgen', live.id !== null && live.folgen);
+  }
+  function liveAus() {
+    if (live.id !== null) navigator.geolocation.clearWatch(live.id);
+    live.id = null; live.folgen = false; live.erster = true;
+    if (live.punkt) { live.punkt.remove(); live.kreis.remove(); live.punkt = live.kreis = null; }
+    liveKnopf();
+  }
+  function liveUmschalten() {
+    if (!navigator.geolocation) { alert('Dieses Gerät kann keinen Standort liefern.'); return; }
+    if (live.id !== null) {
+      if (!live.folgen && live.punkt) { live.folgen = true; map.panTo(live.punkt.getLatLng()); liveKnopf(); return; }
+      liveAus(); return;
+    }
+    live.folgen = true; live.erster = true;
+    live.id = navigator.geolocation.watchPosition((pos) => {
+      const ll = L.latLng(pos.coords.latitude, pos.coords.longitude);
+      const r = pos.coords.accuracy;
+      if (!live.punkt) {
+        live.kreis = L.circle(ll, { radius: r, color: '#1a73e8', weight: 1, fillColor: '#1a73e8', fillOpacity: 0.12, interactive: false }).addTo(map);
+        live.punkt = L.circleMarker(ll, { radius: 8, color: '#fff', weight: 3, fillColor: '#1a73e8', fillOpacity: 1, interactive: false }).addTo(map);
+      } else {
+        live.kreis.setLatLng(ll).setRadius(r);
+        live.punkt.setLatLng(ll);
+      }
+      if (live.erster) { live.erster = false; map.setView(ll, Math.max(map.getZoom(), 13)); }
+      else if (live.folgen) map.panTo(ll, { animate: true });
+    }, (err) => {
+      liveAus();
+      alert(err.code === 1 ? 'Standort ist nicht freigegeben. Bitte die Ortung für diese Seite erlauben.' : 'Standort gerade nicht verfügbar.');
+    }, { enableHighAccuracy: true, maximumAge: 5000, timeout: 20000 });
+    liveKnopf();
   }
 
   function drawOverlay(view) {
