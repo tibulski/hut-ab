@@ -239,7 +239,7 @@
     }, (err) => {
       liveAus();
       alert(err.code === 1 ? 'Standort ist nicht freigegeben. Bitte die Ortung für diese Seite erlauben.' : 'Standort gerade nicht verfügbar.');
-    }, { enableHighAccuracy: true, maximumAge: 5000, timeout: 20000 });
+    }, { enableHighAccuracy: false, maximumAge: 15000, timeout: 30000 });
     liveKnopf();
   }
 
