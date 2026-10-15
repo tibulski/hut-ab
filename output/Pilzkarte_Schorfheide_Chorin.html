@@ -11,8 +11,6 @@ h1{font-size:18px;margin:0 0 4px}p.sub{margin:0;font-size:13px;color:#555}
 .legend i{display:inline-block;width:14px;height:14px;margin-right:6px;vertical-align:-2px;border:1px solid #0002}
 .lbl{background:none;border:none;box-shadow:none;font-weight:600;font-size:12px;color:#222;text-shadow:0 0 3px #fff,0 0 3px #fff}
 .spotnum{background:#1a1a1a;color:#fff;border-radius:50%;width:26px;height:26px;line-height:26px;text-align:center;font-weight:700;border:2px solid #fff;box-shadow:0 1px 3px #0007}
-.standortknopf{background:#fff;width:34px;height:34px;line-height:34px;text-align:center;font-size:22px;color:#444;text-decoration:none;display:block}
-.standortknopf.an{color:#1a73e8;background:#e8f0fe}
 footer{padding:10px 16px;font-size:12px;color:#555}
 </style></head><body>
 <header><h1>Pilzsuche: Schorfheide &amp; Chorin – feuchteste Flächen im Oberboden</h1>
@@ -28,18 +26,4 @@ for(const k of order){const [lab,col,op]=D.info[k];for(const r of D.runs[k]){L.r
 for(const t of D.towns){L.circleMarker([t[1],t[2]],{radius:3,color:'#222',weight:1,fillColor:'#fff',fillOpacity:1}).addTo(map).bindTooltip(t[0],{permanent:true,direction:'right',className:'lbl',offset:[4,0]})}
 D.spots.forEach((s,i)=>{L.marker([s.lat,s.lon],{icon:L.divIcon({className:'',html:'<div class="spotnum">'+(i+1)+'</div>',iconSize:[26,26],iconAnchor:[13,13]})}).addTo(map).bindPopup('<b>'+s.name+'</b><br>'+s.txt+'<br><a target="_blank" href="https://www.google.com/maps/search/?api=1&query='+s.lat+','+s.lon+'">In Google Maps öffnen</a>')});
 const lg=L.control({position:'bottomright'});lg.onAdd=()=>{const e=L.DomUtil.create('div','legend');e.innerHTML=['G','W','H','Y','L','O','R'].map(k=>'<i style="background:'+D.info[k][1]+';opacity:'+Math.min(1,D.info[k][2]+0.25)+'"></i>'+D.info[k][0]).join('<br>');return e};lg.addTo(map);
-// Eigener Standort: Knopf oben links, fortlaufende Ortung mit Genauigkeitskreis
-let standortPunkt=null,standortKreis=null,standortAn=false,standortErsterFix=true;
-const standortKnopf=L.control({position:'topleft'});
-standortKnopf.onAdd=()=>{const b=L.DomUtil.create('a','standortknopf leaflet-bar');b.href='#';b.title='Mein Standort';b.setAttribute('role','button');b.innerHTML='◎';
- L.DomEvent.disableClickPropagation(b);
- L.DomEvent.on(b,'click',e=>{L.DomEvent.preventDefault(e);if(standortAn){map.stopLocate();standortAn=false;b.classList.remove('an');if(standortPunkt){map.removeLayer(standortPunkt);map.removeLayer(standortKreis);standortPunkt=standortKreis=null}}else{standortErsterFix=true;standortAn=true;b.classList.add('an');map.locate({watch:true,enableHighAccuracy:true,maxZoom:14})}});
- return b};
-standortKnopf.addTo(map);
-map.on('locationfound',e=>{
- if(!standortPunkt){standortKreis=L.circle(e.latlng,{radius:e.accuracy,color:'#1a73e8',weight:1,fillOpacity:.12,interactive:false}).addTo(map);
-  standortPunkt=L.circleMarker(e.latlng,{radius:8,color:'#fff',weight:3,fillColor:'#1a73e8',fillOpacity:1}).addTo(map).bindTooltip('Du bist hier (±'+Math.round(e.accuracy)+' m)')}
- else{standortKreis.setLatLng(e.latlng).setRadius(e.accuracy);standortPunkt.setLatLng(e.latlng).setTooltipContent('Du bist hier (±'+Math.round(e.accuracy)+' m)')}
- if(standortErsterFix){standortErsterFix=false;map.setView(e.latlng,Math.max(map.getZoom(),13))}});
-map.on('locationerror',e=>{standortAn=false;document.querySelector('.standortknopf').classList.remove('an');alert('Standort nicht verfügbar: '+e.message+'\nTipp: Ortung im Browser erlauben; auf dem Handy muss die Seite über https geöffnet sein.')});
 </script></body></html>
