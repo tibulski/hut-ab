@@ -266,3 +266,5 @@ dialog .close { float: right; border: 0; background: none; font-size: 26px; curs
 .live-knopf { width: 40px; height: 40px; border: 2px solid rgba(0,0,0,.25); border-radius: 8px; background: #fff; color: #444; font-size: 24px; line-height: 1; cursor: pointer; padding: 0; }
 .live-knopf.an { color: #1a73e8; }
 .live-knopf.folgen { background: #1a73e8; color: #fff; border-color: #1a73e8; }
+.live-gps { font-size: 12px; font-weight: 700; margin-top: 6px; }
+.live-gps.gps-an { background: #1a73e8; color: #fff; border-color: #1a73e8; }

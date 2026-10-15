@@ -190,7 +190,7 @@
 
   // Live-Standort: blauer Punkt mit Genauigkeitskreis, solange die Ortung läuft.
   // Zustände: aus -> folgen (Karte läuft mit) -> frei (Karte wurde verschoben, Antippen holt sie zurück)
-  const live = { id: null, punkt: null, kreis: null, folgen: false, knopf: null, erster: true };
+  const live = { id: null, punkt: null, kreis: null, folgen: false, knopf: null, gpsKnopf: null, genau: false, erster: true };
   function initLive() {
     const Knopf = L.Control.extend({
       options: { position: 'topright' },
@@ -204,12 +204,33 @@
       },
     });
     map.addControl(new Knopf());
+    try { live.genau = localStorage.getItem('hutab-gps') === '1'; } catch (e) { /* privat */ }
+    const GpsKnopf = L.Control.extend({
+      options: { position: 'topright' },
+      onAdd() {
+        const b = L.DomUtil.create('button', 'live-knopf live-gps');
+        b.type = 'button'; b.textContent = 'GPS';
+        L.DomEvent.disableClickPropagation(b);
+        L.DomEvent.on(b, 'click', () => {
+          live.genau = !live.genau;
+          try { localStorage.setItem('hutab-gps', live.genau ? '1' : '0'); } catch (e) { /* privat */ }
+          liveKnopf();
+          if (live.id !== null) { navigator.geolocation.clearWatch(live.id); liveStarten(); }
+        });
+        live.gpsKnopf = b;
+        return b;
+      },
+    });
+    map.addControl(new GpsKnopf());
+    liveKnopf();
     map.on('dragstart', () => { if (live.id !== null && live.folgen) { live.folgen = false; liveKnopf(); } });
   }
   function liveKnopf() {
     if (!live.knopf) return;
     live.knopf.classList.toggle('an', live.id !== null);
     live.knopf.classList.toggle('folgen', live.id !== null && live.folgen);
+    live.gpsKnopf.classList.toggle('gps-an', live.genau);
+    live.gpsKnopf.title = live.genau ? 'GPS genau (mehr Akkuverbrauch) – antippen für Sparmodus' : 'Sparmodus (Netzortung) – antippen für GPS genau';
   }
   function liveAus() {
     if (live.id !== null) navigator.geolocation.clearWatch(live.id);
@@ -224,6 +245,9 @@
       liveAus(); return;
     }
     live.folgen = true; live.erster = true;
+    liveStarten();
+  }
+  function liveStarten() {
     live.id = navigator.geolocation.watchPosition((pos) => {
       const ll = L.latLng(pos.coords.latitude, pos.coords.longitude);
       const r = pos.coords.accuracy;
@@ -239,7 +263,7 @@
     }, (err) => {
       liveAus();
       alert(err.code === 1 ? 'Standort ist nicht freigegeben. Bitte die Ortung für diese Seite erlauben.' : 'Standort gerade nicht verfügbar.');
-    }, { enableHighAccuracy: false, maximumAge: 15000, timeout: 30000 });
+    }, live.genau ? { enableHighAccuracy: true, maximumAge: 2000, timeout: 20000 } : { enableHighAccuracy: false, maximumAge: 15000, timeout: 30000 });
     liveKnopf();
   }
 
