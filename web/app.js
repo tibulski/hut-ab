@@ -29,8 +29,24 @@
     { id: 'XF', icon: '❄️', name: 'Hitze & Frost', desc: 'Abschläge für Hitzetage, Frostnächte, kalten Boden' },
   ];
   // warme Farbskala, hebt sich vom Gruen der Karte ab
-  const STOPS = [[0, [255, 237, 160]], [15, [254, 196, 79]], [30, [245, 128, 37]], [45, [214, 60, 35]], [60, [150, 20, 60]], [80, [84, 10, 72]]];
-  const STOPS_FACTOR = [[0, [215, 48, 39]], [25, [252, 141, 89]], [50, [254, 224, 139]], [75, [145, 207, 96]], [100, [26, 152, 80]]];
+  const FARBEN = {
+    normal: {
+      stops: [[0, [255, 237, 160]], [15, [254, 196, 79]], [30, [245, 128, 37]], [45, [214, 60, 35]], [60, [150, 20, 60]], [80, [84, 10, 72]]],
+      faktor: [[0, [215, 48, 39]], [25, [252, 141, 89]], [50, [254, 224, 139]], [75, [145, 207, 96]], [100, [26, 152, 80]]],
+      chance: ['#fec44f', '#f58025', '#d63c23', '#7a1450'],
+    },
+    // für Rot-Grün-Schwäche: Gelb -> Blau (hell -> dunkel) bzw. Orange -> Blau, kein Rot/Grün-Paar
+    farbenblind: {
+      stops: [[0, [255, 255, 204]], [15, [161, 218, 180]], [30, [65, 182, 196]], [45, [44, 127, 184]], [60, [37, 52, 148]], [80, [8, 29, 88]]],
+      faktor: [[0, [179, 88, 6]], [25, [253, 184, 99]], [50, [247, 247, 247]], [75, [128, 177, 211]], [100, [5, 113, 176]]],
+      chance: ['#ffffcc', '#41b6c4', '#2c7fb8', '#081d58'],
+    },
+  };
+  let STOPS = FARBEN.normal.stops, STOPS_FACTOR = FARBEN.normal.faktor, CHANCE_FARBEN = FARBEN.normal.chance;
+  function farbenWaehlen(blind) {
+    const f = blind ? FARBEN.farbenblind : FARBEN.normal;
+    STOPS = f.stops; STOPS_FACTOR = f.faktor; CHANCE_FARBEN = f.chance;
+  }
   const BERLIN = { lat: 52.5219, lon: 13.4132, label: 'Berlin' };
   const R_EARTH = 6378137;
 
@@ -62,10 +78,10 @@
     return Math.hypot((lon1 - lon2) * k, lat1 - lat2) * 111.32;
   }
   function chance(score) {
-    if (score >= 60) return { label: 'sehr gut', color: '#7a1450' };
-    if (score >= 40) return { label: 'gut', color: '#d63c23' };
-    if (score >= 20) return { label: 'mäßig', color: '#f58025' };
-    return { label: 'schwach', color: '#fec44f' };
+    if (score >= 60) return { label: 'sehr gut', color: CHANCE_FARBEN[3] };
+    if (score >= 40) return { label: 'gut', color: CHANCE_FARBEN[2] };
+    if (score >= 20) return { label: 'mäßig', color: CHANCE_FARBEN[1] };
+    return { label: 'schwach', color: CHANCE_FARBEN[0] };
   }
 
   function loadImageData(url) {
@@ -648,6 +664,12 @@
     if (e.target.checked) state.layers.prot.addTo(map); else state.layers.prot.remove();
   });
   $('toggleRecent').addEventListener('change', showRecent);
+  $('toggleBlind').addEventListener('change', (e) => {
+    farbenWaehlen(e.target.checked);
+    try { localStorage.setItem('hutab-farbenblind', e.target.checked ? '1' : '0'); } catch (err) { /* privat */ }
+    if (state.meta) renderStart();
+    if (state.species && state.mapReady) recompute();
+  });
   for (const id of ['infoBtn', 'infoBtnStart', 'infoLinkStart']) $(id).addEventListener('click', () => $('infoDialog').showModal());
 
   // ------------------------------------------------------------ Start
@@ -671,6 +693,9 @@
         $('btnLocate').setAttribute('aria-pressed', s.label !== 'Berlin');
         $('btnBerlin').setAttribute('aria-pressed', s.label === 'Berlin');
       }
+    } catch (e) { /* privat */ }
+    try {
+      if (localStorage.getItem('hutab-farbenblind') === '1') { $('toggleBlind').checked = true; farbenWaehlen(true); }
     } catch (e) { /* privat */ }
     renderStart();
     await route();
